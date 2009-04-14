@@ -78,13 +78,6 @@
 	frame.size = indFrame.size;
 	_indicator.frame = frame;
 	
-/*	CGRect frame = self.tableView.frame;
-	float side = MIN(frame.size.width, frame.size.height)*0.5f;
-	frame.origin.x += (frame.size.width - side) * 0.5f;
-	frame.origin.y += (frame.size.height - side) * 0.3f;
-	frame.size.width = frame.size.height = side;
-	_indicator.frame = frame;
-*/
 	_twitter = [[MGTwitterEngine alloc] initWithDelegate:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountChanged:) name:@"AccountChanged" object:nil];
 
@@ -196,7 +189,6 @@
 		label.tag = TEXT_TAG;
 		label.lineBreakMode = UILineBreakModeWordWrap;
 		label.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-//		label.adjustsFontSizeToFitWidth = YES;
 		label.highlightedTextColor = [UIColor whiteColor];
 		label.numberOfLines = 0;
 		[cell.contentView addSubview:label];
@@ -298,7 +290,6 @@
 				
 		//Set userpic
 		UIImageView *imageView = (UIImageView *)[cell viewWithTag:IMAGE_TAG];
-//		imageView.image = [[ImageLoader sharedLoader] imageWithURL:[userData objectForKey:@"profile_image_url"]] ;
 		[[ImageLoader sharedLoader] setImageWithURL:[userData objectForKey:@"profile_image_url"] toView:imageView];
 		
 		//Set user name
@@ -371,7 +362,7 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-	//NSLog(@"%@", viewController);
+
 }
 
 #pragma mark MGTwitterEngineDelegate methods
@@ -381,7 +372,6 @@
 {
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	_loading = NO;
-    //NSLog(@"Request succeeded for connectionIdentifier = %@", connectionIdentifier);
 }
 
 
@@ -391,10 +381,6 @@
 			self.navigationItem.leftBarButtonItem.enabled = YES;
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	_loading = NO;
-    /*NSLog(@"Request failed for connectionIdentifier = %@, error = %@ (%@)", 
-          connectionIdentifier, 
-          [error localizedDescription], 
-          [error userInfo]);*/
 	
 	[self releaseActivityIndicator];
 	
@@ -413,11 +399,6 @@
 
 - (void)statusesReceived:(NSArray *)statuses forRequest:(NSString *)connectionIdentifier
 {
-//    NSLog(@"Got statuses for %@:\r%@", connectionIdentifier, statuses);
-	
-//	[TweetterAppDelegate decreaseNetworkActivityIndicator];
-	
-	
 	if([statuses count] < MESSAGES_PER_PAGE)
 	{
 		_lastMessage = YES;
@@ -471,11 +452,6 @@ NSInteger dateReverseSort(id num1, id num2, void *context)
 
 - (void)directMessagesReceived:(NSArray *)statuses forRequest:(NSString *)connectionIdentifier;
 {
-//    NSLog(@"Got messages for %@:\r%@", connectionIdentifier, statuses);
-	
-	
-	
-//	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	if([statuses count] < MESSAGES_PER_PAGE)
 	{
 		_lastMessage = YES;
@@ -493,7 +469,6 @@ NSInteger dateReverseSort(id num1, id num2, void *context)
 	}
 	else
 	{
-//		sleep(10);
 		NSArray *messages = _messages;
 		
 		[statuses setValue:[NSNumber numberWithBool:YES] forKey:@"NewItem"];

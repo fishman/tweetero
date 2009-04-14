@@ -66,18 +66,11 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-//	[webView stopLoading];
 }
-/*
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
-*/
+
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
 	// starting the load, show the activity indicator in the status bar
-//	[self retain];
 	[TweetterAppDelegate increaseNetworkActivityIndicator];
 }
 
@@ -85,14 +78,12 @@
 {
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	self.navigationItem.title = @"Failed";
-//	[self release];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	self.navigationItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-//	[self release];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType

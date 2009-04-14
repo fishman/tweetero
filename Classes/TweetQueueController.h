@@ -27,24 +27,16 @@
 #import <UIKit/UIKit.h>
 #import "MessageUploader.h"
 
-//@class MGTwitterEngine;
-
 @interface TweetQueueController : UITableViewController <MessageUploaderDelegate, UIActionSheetDelegate> 
 {
-//    IBOutlet UIBarButtonItem* deleteButton;
-//    IBOutlet UIBarButtonItem* sendButton;
 	IBOutlet UISegmentedControl *queueSegmentedControl;
 	UIColor *defaultTintColor;
 	UIActionSheet *progressSheet;
 
 	id <TwitterConnectionProtocol>  _connection;
-//	BOOL wasCanceled;
-
 }
 - (void)deleteTweet;
 - (void)sendAllTweets;
-//- (IBAction)deleteTweet;
-//- (IBAction)sendAllTweets;
 
 - (IBAction)segmentedActions:(id)sender;
 

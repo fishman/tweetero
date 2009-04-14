@@ -203,15 +203,14 @@
 
 	NSDictionary *entry = [array objectAtIndex:index];
 	NSString* imageLocalPath = [entry objectForKey:@"imagePath"];
-	//NSLog(imageLocalPath);
+
 	if(imageLocalPath)
 	{
 		NSError *error;
 		NSString* fullPath = [[self libraryFolderName] stringByAppendingPathComponent:imageLocalPath];
-		//NSLog(imageLocalPath);
+
 		if(![[NSFileManager defaultManager] removeItemAtPath:fullPath error:&error])
 		{
-			//NSLog([error localizedDescription]);
 			return NO;
 		}
 	}

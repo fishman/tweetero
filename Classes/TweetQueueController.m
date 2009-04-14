@@ -111,7 +111,6 @@
 }
 
 - (void)deleteTweet 
-//- (IBAction)deleteTweet 
 {
 	NSIndexPath *index = [self.tableView indexPathForSelectedRow];
 	if(!index || index.row < 0 || index.row >= [[TweetQueue sharedQueue] count])
@@ -213,9 +212,7 @@
 	{
 		[[TweetQueue sharedQueue] deleteMessage:0];
 		[self enableModifyButtons:NO];
-//		deleteButton.enabled = NO;
 		[self.tableView reloadData];
-//		[self setQueueTitle];
 		[self postNextMessage];
 	}
 	else
@@ -234,7 +231,6 @@
 
 
 - (void)sendAllTweets 
-//- (IBAction)sendAllTweets 
 {
 	if(![[TweetQueue sharedQueue] count]) 
 		return;
@@ -248,27 +244,12 @@
 		return;
 	}
 
-//	wasCanceled = NO;
 	self.progressSheet = ShowActionSheet(NSLocalizedString(@"Uploading the messages to Twitter...", @""), self, NSLocalizedString(@"Cancel", @""), self.tabBarController.view);
 	[self postNextMessage];
-
-//	[[TweetQueue sharedQueue] deleteAllMessages];
-//    deleteButton.enabled = NO;
-//	[self.tableView reloadData];
 }
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
-    }
-    return self;
-}
-*/
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-//	[self dismissProgressSheetIfExist];
-//	wasCanceled = YES;
 	if(_connection)
 		[_connection cancel];
 }
@@ -277,10 +258,6 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-//	wasCanceled = NO;
-//	self.navigationItem.rightBarButtonItem = sendButton;
-//	self.navigationItem.leftBarButtonItem = deleteButton;
-//	[self setQueueTitle];
 
 	queueSegmentedControl.frame = CGRectMake(0, 0, 130, 30);
 	[queueSegmentedControl setWidth:35 forSegmentAtIndex:0];
@@ -289,12 +266,9 @@
 	queueSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
 	UIBarButtonItem *segmentBarItem = [[[UIBarButtonItem alloc] initWithCustomView:queueSegmentedControl] autorelease];
 	self.navigationItem.rightBarButtonItem = segmentBarItem;
-//	self.navigationItem.rightBarButtonItem = messageActionsSegmentedControl;
 	defaultTintColor = [queueSegmentedControl.tintColor retain];	// keep track of this for later
 
-
 	[self enableModifyButtons:NO];
-//	deleteButton.enabled = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -310,36 +284,6 @@
 }
 
 
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
 - (void)didReceiveMemoryWarning 
 {
 	// Releases the view if it doesn't have a superview.
@@ -348,7 +292,8 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
+- (void)viewDidUnload 
+{
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
@@ -387,7 +332,6 @@
 			UILabel *label = [[UILabel alloc] initWithFrame:rect];
 			label.tag = 1;
 			label.lineBreakMode = UILineBreakModeWordWrap;
-//			label.adjustsFontSizeToFitWidth = YES;
 			label.highlightedTextColor = [UIColor whiteColor];
 			label.numberOfLines = 0;
 			[cell.contentView addSubview:label];
@@ -397,8 +341,6 @@
 		}
     }
     
-	
-	
 	if(tweetCount)
 	{
 		UILabel *label = (UILabel *)[cell viewWithTag:1];
@@ -440,8 +382,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	int tweetCount = [[TweetQueue sharedQueue] count];
-//	if(tweetCount)
-//		deleteButton.enabled = YES;
 	[self enableModifyButtons: tweetCount > 0];
 }
 
@@ -452,45 +392,6 @@
 	UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
 	return cell.frame.size.height;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 
 @end
