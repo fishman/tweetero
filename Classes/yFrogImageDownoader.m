@@ -94,7 +94,6 @@
 	else if(imageType == fullYFrog)
 	{
 		NSString* fileID = [imageURL lastPathComponent];
-//		//NSLog([@"http://yfrog.com/api/xmlInfo?path=" stringByAppendingString:fileID]);
 		NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:[@"http://yfrog.com/api/xmlInfo?path=" stringByAppendingString:fileID]]];
 		waitXMLInfo = YES;
 		self.connection = [[NSURLConnection alloc] initWithRequest:req 
@@ -102,7 +101,6 @@
 											  startImmediately:YES];
 		if (!connection) 
 		{
-			//NSLog(@"connection does not created");
 			[delegate receivedImage:nil sender:self];
 			[self release];
 		}
@@ -133,8 +131,6 @@
 
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-//NSLog(@"connection didFailWithError");
-//NSLog([error localizedDescription]);
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	[delegate receivedImage:nil sender:self];
     [self release];
@@ -179,15 +175,8 @@
 		[self.contentXMLProperty appendString:string];
 }
 
-//- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
-//{
-//}
-
-
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
-//NSLog(@"connectionDidFinishLoading");
-//NSLog([[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding] autorelease]);
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	if(waitXMLInfo)
 	{
@@ -239,65 +228,4 @@
 	return imageType;
 }
 
-/*
-- (NSXMLNode*)getChildNode:(NSXMLNode*)parent withName:(NSString*)name
-{
-	NSXMLNode* node = nil;
-	for (node = [parent childAtIndex:0]; node; node = [node nextSibling]) 
-	{
-//		//NSLog([node name]);
-		if ([[node name] isEqualToString:name])
-			return node;
-	}
-	return nil;
-}
-
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection
-{
-	if(waitXMLInfo)
-	{
-		waitXMLInfo = NO;
-		
-		NSString* fullYFrogImageURL = nil;
-		NSXMLDocument* xmlDoc = [[NSXMLDocument alloc] initWithData:result options:0 error:nil];
-//		//NSLog([[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding] autorelease]);
-
-		NSXMLNode* linksNode = nil;
-		NSXMLNode* errorNode = nil;
-		NSXMLNode* fullImageNode = nil;
-		
-		linksNode = [self getChildNode:xmlDoc withName:@"links"];
-		if(!linksNode)
-		{
-			NSXMLNode* imginfoNode = [self getChildNode:xmlDoc withName:@"imginfo"];
-			if(imginfoNode)
-				linksNode = [self getChildNode:imginfoNode withName:@"links"];
-		}
-		
-		if(linksNode)
-		{
-//			errorNode = [self getChildNode:linksNode withName:@"error"];
-			fullImageNode = [self getChildNode:linksNode withName:@"image_link"];
-			if(fullImageNode && [fullImageNode kind] == NSXMLElementKind)
-				fullYFrogImageURL = [[fullImageNode stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]; 
-		}
-
-		[xmlDoc release];
-		[result setLength:0];
-		
-		if(fullYFrogImageURL)
-			[self postRequestForImage:[NSURL URLWithString:fullYFrogImageURL]];
-		else
-		{
-			[delegate receivedImage:nil fromYFrogURL:origURL imageType:imageType];
-			[self release];
-		}
-	}
-	else
-	{
-		[delegate receivedImage:[UIImage imageWithData:result] fromYFrogURL:origURL imageType:imageType];
-		[self release];
-	}
-}
-*/
 @end

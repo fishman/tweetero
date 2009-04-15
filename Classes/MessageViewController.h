@@ -48,7 +48,6 @@ enum _MessageViewSuspendedOperations
     IBOutlet UILabel *dateField;
     IBOutlet UIButton *nameField;
     IBOutlet UIWebView *textField;
-//	IBOutlet UIBarButtonItem *replyButton;
 	IBOutlet UISegmentedControl *messageActionsSegmentedControl;
     IBOutlet UIButton *deleteTwit;
 
@@ -60,14 +59,12 @@ enum _MessageViewSuspendedOperations
 	MessageViewSuspendedOperations suspendedOperation;
 	UIActionSheet *progressSheet;
 
-//	int openedConnections;
 	BOOL _isDirectMessage;
 	int _newLineCounter;
 	MGTwitterEngine *_twitter;
 }
 - (IBAction)nameSelected;
 - (IBAction)deleteTwit;
-//- (IBAction)reply;
 - (void)forward;
 - (void)reTwit;
 - (void)reply;

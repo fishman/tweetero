@@ -47,8 +47,6 @@
 - (float) latitude;
 - (float) longitude;
 
-
-//- (unsigned) mapURLLen;
 - (NSString*) mapURL;
 - (NSString*) longURL;
 

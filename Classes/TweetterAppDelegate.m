@@ -45,8 +45,6 @@ static int NetworkActivityIndicatorCounter = 0;
 
 @synthesize window;
 @synthesize tabBarController;
-//@synthesize navigationController;
-
 
 - (UINavigationController *)createNavControllerWrappingViewControllerOfClass:(Class)cntrloller 
 																			nibName:(NSString*)nibName 
@@ -117,10 +115,6 @@ static int NetworkActivityIndicatorCounter = 0;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
-    
-    // Add the tab bar controller's current view as a subview of the window
-//	[window addSubview:navigationController.view];
-
 	NSDictionary *appDefaults = [[NSDictionary alloc] initWithContentsOfFile:
 						[[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"]];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
@@ -132,19 +126,6 @@ static int NetworkActivityIndicatorCounter = 0;
 
 	[[LocationManager locationManager] startUpdates];
 }
-
-
-/*
-// Optional UITabBarControllerDelegate method
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-}
-*/
-
-/*
-// Optional UITabBarControllerDelegate method
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
-}
-*/
 
 
 - (void)dealloc 

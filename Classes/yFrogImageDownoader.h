@@ -34,13 +34,6 @@ typedef enum _ImageType
 	thumbnailYFrog,
 	nonYFrog
 } ImageType;
-/*
-typedef enum _YFrogErrors
-{
-	noError,
-	cantCreateConnection
-} YFrogErrors;
-*/
 
 @class ImageDownoader;
 

@@ -52,26 +52,6 @@
 	return self;
 }
 
-
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
-{
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
-	{
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView 
-{
-}
-*/
-
 - (void) setNavigatorButtons
 {
 
@@ -84,7 +64,6 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountChanged:) name:@"AccountChanged" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLocationDefaultsChanged:) name:@"UpdateLocationDefaultsChanged" object:nil];
 	self.navigationItem.title = NSLocalizedString(@"Settings", @"");
-//	self.title = NSLocalizedString(@"Settings", @"");
 	firstMailAddressView.delegate = self;
 	firstMailAddressView.hidden = YES;
 	postMailLabel.hidden = YES;
@@ -92,15 +71,6 @@
 	
 	[self accountChanged:nil];
 }
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
@@ -155,8 +125,6 @@
 
 	NSArray* addresses = [[NSUserDefaults standardUserDefaults] arrayForKey:@"PostMailAddresses"];
 	firstMailAddressView.text = (addresses && [addresses count]) ? [addresses objectAtIndex:0] : @"";
-//	firstMailAddressView.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
-//	firstMailAddressView.returnKeyType = UIReturnKeyDone;
 }
 
 

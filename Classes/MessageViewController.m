@@ -52,7 +52,6 @@
 		NSNumber *isDirectMessage = [_message objectForKey:@"DirectMessage"];
 		_isDirectMessage = isDirectMessage && [isDirectMessage boolValue];
 		_twitter = [[MGTwitterEngine alloc] initWithDelegate:self];
-//		openedConnections = 0;
     }
     return self;
 }
@@ -64,12 +63,6 @@
 	[self.navigationController pushViewController:infoView animated:YES];
 	[infoView release];
 }
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
 
 - (NSString*)makeHTMLMessage
 {
@@ -133,7 +126,6 @@
 	NSString *htmlTemplate = @"<html></script></head><body style=\"width:%d; overflow:visible; padding:0; margin:0\"><big>%@</big></body></html>";
 	html = [NSString stringWithFormat:htmlTemplate, (int)textField.frame.size.width - 10, [filteredLines componentsJoinedByString:@"<br>"]];
 	[filteredLines release];
-//	//NSLog(html);
 	return html;
 }
 
@@ -147,7 +139,6 @@
 		if ([view respondsToSelector:@selector(setAllowsRubberBanding:)]) 
 			[view performSelector:@selector(setAllowsRubberBanding:) withObject:NO]; 
 	}
-//	self.navigationItem.rightBarButtonItem = replyButton;
 	messageActionsSegmentedControl.frame = CGRectMake(0, 0, 190, 30);
 	messageActionsSegmentedControl.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	messageActionsSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
@@ -155,7 +146,6 @@
 	if(!_isDirectMessage || 
 	   ![[MGTwitterEngine username] isEqualToString:[[_message objectForKey:@"sender"] objectForKey:@"screen_name"]])
 			self.navigationItem.rightBarButtonItem = segmentBarItem;
-//	self.navigationItem.rightBarButtonItem = messageActionsSegmentedControl;
 	defaultTintColor = [messageActionsSegmentedControl.tintColor retain];	// keep track of this for later
 	
 	static NSDateFormatter *dateFormatter = nil;
@@ -170,20 +160,6 @@
 	
 	[textField loadHTMLString:[self makeHTMLMessage] baseURL:nil];
 	textField.scalesPageToFit = NO;
-/*	
-	if(_newLineCounter < 9)
-	{
-		for (id view in textField.subviews) 
-		{
-			if ([view respondsToSelector:@selector(setAllowsRubberBanding:)]) 
-				[view setAllowsRubberBanding:NO];
-				//[view performSelector:@selector(setBounces:) withObject:NO]; 
-//			if ([view respondsToSelector:@selector(setScrollingEnabled:)]) 
-//				[view performSelector:@selector(setScrollingEnabled:) withObject:NO]; 
-		}
-		
-	}
-*/	
 	//Set message date and time
 	NSCalendarUnit unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
 	NSDate *createdAt = [_message objectForKey:@"created_at"];
@@ -235,18 +211,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-//	[textField stopLoading];
 }
-
-
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)didReceiveMemoryWarning 
 {
@@ -348,25 +313,6 @@
 		while(link = [en nextObject])
 			if((yFrogLink = [imagesLinks objectForKey:link]) && ![yFrogLink isEqual:[NSNull null]])
 				body = [body stringByReplacingOccurrencesOfString:link withString:yFrogLink];
-		
-		
-/*		NSString *text = [_message objectForKey:@"text"];
-		
-		NSArray *words = [text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		NSEnumerator *en = [words objectEnumerator];
-		NSString *word;
-		NSMutableArray *filteredWords = [[NSMutableArray alloc] initWithCapacity:[words count]];
-		NSString* yFrogLink = nil;
-		while(word = [en nextObject])
-		{
-			if((yFrogLink = [imagesLinks objectForKey:word]) && ![yFrogLink isEqual:[NSNull null]])
-				word = yFrogLink;
-			[filteredWords addObject:word];
-		}
-		
-		body = [filteredWords componentsJoinedByString:@" "];
-		[filteredWords release];*/
-		
 	}
 	
 	if(suspendedOperation == forward)
@@ -376,7 +322,7 @@
 							[NSLocalizedString(@"Mail Subject: Forwarding of a twit", @"") stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 							[body stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]
 							];
-		//NSLog(@"mailto URL ---> %@", mailto);
+
 		success = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mailto]];
 		if(!success)
 		{
@@ -390,12 +336,7 @@
 	else if(suspendedOperation == retwit)
 	{
 		TwitEditorController *msgView = [[TwitEditorController alloc] init];
-//		NewMessageController *msgView = [[NewMessageController alloc] initWithNibName:@"NewMessage" bundle:nil];
 		[self.navigationController pushViewController:msgView animated:YES];
-//		id test = [_message objectForKey:@"user"];
-//		LogDictionaryStringKeys(_message, nil);
-//		id test2 = [test objectForKey:@"screen_name"];
-//		LogDictionaryStringKeys(test, nil);
 		[msgView setRetwit:body whose:[[_message objectForKey:@"user"] objectForKey:@"screen_name"]];
 		[msgView release];
 	}		
@@ -438,7 +379,6 @@
 	[self copyImagesToYFrog];
 }
 
-//- (IBAction)reply 
 - (void)reply 
 {
 	if(_isDirectMessage)

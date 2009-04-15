@@ -31,7 +31,6 @@
 #import "MessageViewController.h"
 #import "MessageListController.h"
 #import "TwitEditorController.h"
-//#import "NewMessageController.h"
 #import "TweetterAppDelegate.h"
 
 #define NAME_TAG 1
@@ -107,7 +106,6 @@
 - (void)newMessage
 {
 	TwitEditorController *msgView = [[TwitEditorController alloc] init];
-//	NewMessageController *msgView = [[NewMessageController alloc] initWithNibName:@"NewMessage" bundle:nil];
 	[self.navigationController pushViewController:msgView animated:YES];
 	[msgView release];
 }

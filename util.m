@@ -45,26 +45,23 @@ void LogStringArray(NSArray* ar, NSString* descriptionString)
 
 void LogDictionaryStringKeys(NSDictionary* dict, NSString* descriptionString)
 {
-//#ifdef DEBUG
+#ifdef DEBUG
 	LogStringArray([dict allKeys], descriptionString);
-//#endif
+#endif
 }
 
 void LogStringSet(NSSet* set, NSString* descriptionString)
 {
-//#ifdef DEBUG
+#ifdef DEBUG
 	LogStringArray([set allObjects], descriptionString);
-//#endif
+#endif
 }
 
 UIActionSheet * ShowActionSheet(NSString* title, id <UIActionSheetDelegate> delegate, 
 									NSString *cancelButtonTitle, UIView* forView)
 {
-//	UIActionSheet* progressSheet = [[UIActionSheet alloc] initWithTitle:title delegate:delegate cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
 	UIActionSheet* progressSheet = [[UIActionSheet alloc] initWithTitle:title delegate:delegate cancelButtonTitle:cancelButtonTitle destructiveButtonTitle:nil otherButtonTitles:nil];
-//	UIActionSheet* progressSheet = [[UIActionSheet alloc] initWithTitle:title delegate:delegate cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:cancelButtonTitle];
 	progressSheet.actionSheetStyle = UIActionSheetStyleDefault;
-//	progressSheet.cancelButtonIndex = -1;
 	
 	UIActivityIndicatorView* progressInd = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(-18.5, -3.0, 40.0, 40.0)];
 	progressInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
@@ -82,18 +79,8 @@ UIActionSheet * ShowActionSheet(NSString* title, id <UIActionSheetDelegate> dele
 }
 
 // may cause a crash in non main thead
-
 UIImage* imageScaledToSize(UIImage* image, int maxDimension)
 {
-/*	UIGraphicsBeginImageContext( newSize );
-	[image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-	UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
-
-	return newImage;*/
-	
-	
-	
 	CGImageRef imgRef = image.CGImage;  
 	
 	CGFloat width = CGImageGetWidth(imgRef);  
@@ -101,7 +88,6 @@ UIImage* imageScaledToSize(UIImage* image, int maxDimension)
 	
 	CGAffineTransform transform = CGAffineTransformIdentity;
 	CGRect bounds = CGRectMake(0, 0, width, height);  
-//	CGRect bounds = CGRectMake(0, 0, newSize.width, newSize.height);  
 	
 	if(maxDimension > 0) //need scale
 	{

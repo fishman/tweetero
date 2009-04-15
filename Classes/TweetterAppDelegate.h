@@ -26,10 +26,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TweetterAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
+@interface TweetterAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> 
+{
     UIWindow *window;
     UITabBarController *tabBarController;
-//	IBOutlet UINavigationController	*navigationController;
 }
 
 + (void) increaseNetworkActivityIndicator;
@@ -37,6 +37,5 @@
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
-//@property (nonatomic, retain) UINavigationController *navigationController;
 
 @end

@@ -35,7 +35,7 @@ UIActionSheet * ShowActionSheet(NSString* title, id <UIActionSheetDelegate> dele
 									NSString *cancelButtonTitle, UIView* forView);
 	
 // may cause a crash in non main thead
-UIImage* imageScaledToSize(UIImage* image, int maxDimension/*, CGSize newSize*/);
+UIImage* imageScaledToSize(UIImage* image, int maxDimension);
 int isImageNeedToConvert(UIImage* testImage, BOOL *needToResize, BOOL *needToRotate);
 
 

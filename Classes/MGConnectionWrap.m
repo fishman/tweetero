@@ -26,7 +26,6 @@
 
 #import "MGTwitterEngine.h"
 #import "MGConnectionWrap.h"
-//#import "TweetterAppDelegate.h"
 
 @implementation MGConnectionWrap
 
@@ -48,12 +47,9 @@
 
 - (void)dealloc 
 {
-//	int connectionsCount = [_twitter numberOfConnections];
 	[_twitter closeAllConnections];
 	[_twitter removeDelegate];
 	[_twitter release];
-//	while(connectionsCount-- > 0)
-//		[TweetterAppDelegate decreaseNetworkActivityIndicator];
 
 	[mgTwitterConnectionID release];
 	[_delegate release];

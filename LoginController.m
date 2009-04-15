@@ -102,10 +102,6 @@
 		
 	if(_remember)
 		[MGTwitterEngine forgetPassword];
-	
-	
-//	if(![[loginField text] length])
-//		[loginField becomeFirstResponder];
 }
 
 #pragma mark -

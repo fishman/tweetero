@@ -32,7 +32,6 @@
 @protocol ImageUploaderDelegate<NSObject>
 
 - (void)uploadedImage:(NSString*)yFrogURL sender:(ImageUploader*)sender;
-//- (BOOL)uploadingImageWasScaled:(NSDictionary*)images; //optional
 
 @end
 

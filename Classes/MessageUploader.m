@@ -116,7 +116,6 @@
 		ImageUploader * uploader = [[ImageUploader alloc] init];
 		self._connection = uploader;
 		[uploader postJPEGData:_imageData delegate:self userData:nil];
-//		[uploader postImage:self._image delegate:self userData:nil];
 		[uploader release];
 	}
 }
@@ -149,7 +148,6 @@
 
 - (void)requestFailed:(NSString *)connectionIdentifier withError:(NSError *)error
 {
-//NSLog([error localizedDescription]);
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	self._connection = nil;
 	if(self._delegate)

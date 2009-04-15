@@ -61,14 +61,12 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-	//NSLog(@"%x", self.navigationController.delegate);
 	charsCount.text = [NSString stringWithFormat:@"%d", MAX_SYMBOLS_COUNT_IN_TEXT_VIEW - [textView.text length]];
 	_textModified = YES;
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-	//NSLog(@"%@", self.navigationController.delegate);
 	return MAX_SYMBOLS_COUNT_IN_TEXT_VIEW >= [textView.text length] - range.length + [text length];
 }
 
@@ -91,13 +89,7 @@
 	_textModified = NO;
 	[self textViewDidChange:textEdit];
 }
-/*
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	toField.text = [NSString stringWithFormat:@"Message to %@", _user];
-}
-*/
+
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
@@ -114,7 +106,6 @@
 		replyToId = [[_message objectForKey:@"id"] intValue];
 	}
 	
-//	[_twitter sendUpdate:textEdit.text inReplyTo:replyToId];
 	[sendButton setEnabled:NO];
 	NSString* connectionID = [_twitter sendDirectMessage:textEdit.text to:_user];
 	if(connectionID)
@@ -151,7 +142,6 @@
 
 - (void)requestSucceeded:(NSString *)connectionIdentifier
 {
-    //NSLog(@"Request succeeded for connectionIdentifier = %@", connectionIdentifier);
 	[cancelButton setEnabled:YES];
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"DirectMessageSent" object:nil];
@@ -161,11 +151,6 @@
 
 - (void)requestFailed:(NSString *)connectionIdentifier withError:(NSError *)error
 {
-    /*NSLog(@"Request failed for connectionIdentifier = %@, error = %@ (%@)", 
-          connectionIdentifier, 
-          [error localizedDescription], 
-          [error userInfo]);*/
-		  
 	[sendButton setEnabled:YES];
 	[cancelButton setEnabled:YES];
 	

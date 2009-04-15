@@ -64,17 +64,6 @@
 - (void)applyImage
 {
 	[imageView setImage:self._image];
-/*	UIScrollView *scView = [imageView superview];
-	CGRect imgFrame = CGRectMake(0, 0, _image.size.width, _image.size.height);
-	CGRect scFrame = scView.frame;
-	float zoom = MIN(scFrame.size.width / imgFrame.size.width, scFrame.size.height / imgFrame.size.height);
-	scView.minimumZoomScale = 1;//zoom;
-	imgFrame.size.width *= zoom;
-	imgFrame.size.height *= zoom;
-	imgFrame.origin.x = (scFrame.size.width - imgFrame.size.width) * 0.5f;
-	imgFrame.origin.y = (scFrame.size.height - imgFrame.size.height) * 0.5f;*/
-//	imageView.frame = imgFrame;
-//	imgFrame = imageView.frame;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -89,9 +78,6 @@
 		self.connectionDelegate = downloader;
 		[downloader getImageFromURL:self._yFrogURL imageType:iPhoneYFrog delegate:self];
 		[downloader release];
-//		NSData* imgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[_yFrogURL stringByAppendingString:@":iphone"]]];
-//		if(imgData)
-//			self._image = [[[UIImage alloc] initWithData:imgData] autorelease];
 	}
 	
 	if(self._image)
@@ -112,9 +98,7 @@
 		[segmentBarItem release];
 	}
 	else
-		self.navigationItem.rightBarButtonItem = saveButton;
-	
-//	[self toggleFullScreen];
+		self.navigationItem.rightBarButtonItem = saveButton;	
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -142,14 +126,6 @@
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)didReceiveMemoryWarning 
 {
@@ -197,15 +173,6 @@
 {
 	BOOL navBarHidden = self.navigationController.navigationBarHidden;
 			
-/*	CGRect scrFrame = self.view.frame;
-	
-	if(navBarHidden)
-		scrFrame.size.height -= 40;
-	else
-		scrFrame.size.height += 40;
-	
-	self.view.frame = scrFrame;
-*/	
 	[self.navigationController 
 		setNavigationBarHidden: !navBarHidden
 		animated:YES];
@@ -230,13 +197,11 @@
 	self.connectionDelegate = nil;
 	if(image)
 	{
-//NSLog(@"receivedImage");
 		self._image = image;
 		[self applyImage];
 	}
 	else if(![sender wasCanceled])
 	{
-//NSLog(@"NOT receivedImage");
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed!", @"") 
 													message:NSLocalizedString(@"Failed to download the image.", @"")
 													delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
@@ -269,7 +234,6 @@
 						[NSLocalizedString(@"Mail Subject: Forwarding of an image", @"") stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 						[self._yFrogURL stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]
 						];
-	//NSLog(@"mailto URL ---> %@", mailto);
 	success = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mailto]];
 	if(!success)
 	{
@@ -309,37 +273,6 @@
 			break;
 	}
 }
-
-/*
-- (NSString*)saveImage:(UIImage*)image
-{
-	NSString *libFolderPathMain = [[[NSString alloc] initWithString:@"~/Library/Tweetter"] stringByExpandingTildeInPath];
-	NSString *libFolderPath = libFolderPathMain;
-	NSFileManager* fm = [NSFileManager defaultManager];
-	BOOL isDir = NO;
-	BOOL fileExist = NO;
-	int i = 1;
-	while((fileExist = [fm fileExistsAtPath:libFolderPath isDirectory:&isDir]) && !isDir)
-		libFolderPath = [NSString stringWithFormat:@"%@ %d", libFolderPathMain, i++];
-
-	if(!fileExist)
-		[fm createDirectoryAtPath:libFolderPath attributes:nil];
-
-	i = 1;
-	NSString *imagePathMain = [libFolderPath stringByAppendingPathComponent:@"TweetterImage"];
-	NSString *imagePath = [imagePathMain stringByAppendingPathExtension:@"jpg"];
-	while([fm fileExistsAtPath:imagePath])
-		imagePath = [[NSString stringWithFormat:@"%@ %d", imagePathMain, i++] stringByAppendingPathExtension:@"jpg"];
-		
-	BOOL success = YES;	
-	
-	NSData *imageData = [NSData dataWithData:UIImageJPEGRepresentation(image, 1.f)];
-	[imageData writeToFile:imagePath atomically:YES];	
-	
-	return success ? imagePath : nil;
-
-}
-*/
 
 - (IBAction)saveActions:(id)sender
 {
