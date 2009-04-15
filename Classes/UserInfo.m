@@ -55,29 +55,17 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-/*	
-	for (id view in infoView.subviews) 
-	{
-		if ([view respondsToSelector:@selector(setBounces:)]) 
-			[view performSelector:@selector(setBounces:) withObject:NO]; 
-		if ([view respondsToSelector:@selector(setScrollingEnabled:)]) 
-			[view performSelector:@selector(setScrollingEnabled:) withObject:NO]; 
-	}
-*/	
 
 	sendDirectMessage.hidden = YES;
 	[TweetterAppDelegate increaseNetworkActivityIndicator];
-//	[self retain];
 	self.isUserReceivingUpdatesForConnectionID = [_twitter isUser:_username receivingUpdatesFor:[MGTwitterEngine username]];
 	[TweetterAppDelegate increaseNetworkActivityIndicator];
-//	[self retain];
 	[_twitter getUserInformationFor:_username];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-//	[infoView stopLoading];
 }
 
 - (IBAction)sendMessage 
@@ -95,17 +83,6 @@
 	[msgView setReplyToMessage:	[NSDictionary dictionaryWithObject:	[NSDictionary dictionaryWithObject:_username forKey:@"screen_name"]	
 															forKey:@"user"]];
 	[msgView release];
-
-
-
-/*    NewMessageController *msgView = [[NewMessageController alloc] initWithNibName:@"NewMessage" bundle:nil];
-	[self.navigationController pushViewController:msgView animated:YES];
-	[msgView setReplyToMessage:
-		[NSDictionary dictionaryWithObject:
-			[NSDictionary dictionaryWithObject:_username forKey:@"screen_name"]
-		forKey:@"user"]];
-		 
-	[msgView release];*/
 }
 
 - (IBAction)showTwitts 
@@ -160,7 +137,6 @@
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	NSDictionary *followData = [miscInfo objectAtIndex:0];
 	
-//	NSLog(@"%@", followData);
 	BOOL friends = NO;
 	id friendsObj = [followData objectForKey:@"friends"];
 	if(friendsObj)
@@ -172,8 +148,6 @@
 {
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	NSDictionary *userData = [userInfo objectAtIndex:0];
-	
-//	NSLog(@"%@", userData);
 	
 	avatarView.image = [[ImageLoader sharedLoader] imageWithURL:[userData objectForKey:@"profile_image_url"]] ;
 	nameField.text = [userData objectForKey:@"screen_name"];
@@ -269,7 +243,6 @@
 	else
 	{
 		_gotInfo = NO;
-//		[self retain];
 		[TweetterAppDelegate increaseNetworkActivityIndicator];
 		[_twitter getUserInformationFor:_username];
 	}
@@ -308,17 +281,10 @@
 {
 	[TweetterAppDelegate increaseNetworkActivityIndicator];
 	if(notifySwitch.on)
-	{
-//		[self retain];
 		[_twitter enableNotificationsFor:_username];
-	}
 	else
-	{
-//		[self retain];
 		[_twitter disableNotificationsFor:_username];
-	}
 	
-//	[self retain];
 	[TweetterAppDelegate increaseNetworkActivityIndicator];
 	[_twitter getUserInformationFor:_username];
 }

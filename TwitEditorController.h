@@ -55,14 +55,8 @@ enum _TwitEditorSuspendedOperations
 													, UIAlertViewDelegate
 													> 
 {
-//    IBOutlet UIButton *postImage;
-//    IBOutlet UIButton *pickImage;
     IBOutlet UISegmentedControl *pickImage;
-//    IBOutlet UIBarButtonItem *pickImageButton;
-//    IBOutlet UIBarButtonItem *sendButton;
-//    IBOutlet UIBarButtonItem *doneEditButton;
     IBOutlet UIBarButtonItem *cancelButton;
-//    IBOutlet UIBarButtonItem *backButton;
     IBOutlet UINavigationItem *navItem;
     IBOutlet ImagePreview *image;
     IBOutlet UITextView *messageText;
@@ -94,8 +88,6 @@ enum _TwitEditorSuspendedOperations
 	UIActivityIndicatorView *_indicator;
 	int _indicatorCount;
 	
-//	UIActivityIndicatorView *_imagePickerIndicator;
-	
 	BOOL twitWasChangedManually;
 }
 
@@ -103,8 +95,6 @@ enum _TwitEditorSuspendedOperations
 
 - (void)postImageAction;
 - (void)postImageLaterAction;
-//- (IBAction)postImageAction;
-//- (IBAction)finishEditAction;
 - (IBAction)insertLocationAction;
 - (IBAction)cancel;
 - (void)grabImage;
@@ -136,14 +126,10 @@ enum _TwitEditorSuspendedOperations
 - (void)retainActivityIndicator;
 - (void)releaseActivityIndicator;
 
-//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
-//- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex;
-
 @property (nonatomic, retain) UIActionSheet *progressSheet;
 
 @property (nonatomic, retain) NSString *currentImageYFrogURL;
 @property (nonatomic, retain) id <TwitterConnectionProtocol> connectionDelegate;
 @property (nonatomic, retain) NSDictionary *_message;
-//@property (nonatomic, retain) NSString* mgTwitterConnectionID;
 
 @end

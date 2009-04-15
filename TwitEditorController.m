@@ -51,7 +51,6 @@
 {
 	[super viewDidDisappear:NO];
 	[twitEditor startUploadingOfPickedImageIfNeed];
-//	NSLog(@"viewDidDisappear");
 }
 
 @end
@@ -71,8 +70,6 @@
 
 - (void) setNavigatorButtons
 {
-//	if(self.navigationItem.backBarButtonItem != cancelButton)
-//			self.navigationItem.backBarButtonItem = cancelButton;
 	if(self.navigationItem.leftBarButtonItem != cancelButton)
 	{
 		[[self navigationItem] setLeftBarButtonItem:cancelButton animated:YES];
@@ -82,12 +79,6 @@
 			cancelButton.title = NSLocalizedString(@"Cancel", @"");
 	}	
 		
-/*	if(inTextEditingMode)
-	{
-		if(self.navigationItem.rightBarButtonItem != doneEditButton)
-			[[self navigationItem] setRightBarButtonItem:doneEditButton animated:YES];
-	}
-	else*/
 	if(image.image || [[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length])
 	{
 		if(self.navigationItem.rightBarButtonItem != segmentBarItem)
@@ -99,65 +90,6 @@
 		if(self.navigationItem.rightBarButtonItem)
 			[[self navigationItem] setRightBarButtonItem:nil animated:YES];
 	}
-
-
-
-/*	if(self.navigationItem.leftBarButtonItem != pickImageButton)
-	{
-		[[self navigationItem] setLeftBarButtonItem:pickImageButton animated:YES];
-	}*/
-
-//	self.navigationItem.backBarButtonItem.title = NSLocalizedString(@"Back", @"");
-//	self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"Back", @"");
-
-/*	NSString* secondSegTitle = nil;
-	if(inTextEditingMode)
-	{
-		secondSegTitle = NSLocalizedString(@"Done", "");
-		if([postImageSegmentedControl numberOfSegments] == 1)
-			[postImageSegmentedControl insertSegmentWithTitle:secondSegTitle atIndex:1 animated:YES];
-		else if (![[postImageSegmentedControl titleForSegmentAtIndex:1] isEqualToString:secondSegTitle])
-			[postImageSegmentedControl setTitle:secondSegTitle forSegmentAtIndex:1];
-	}
-	else if(image.image)
-	{
-		secondSegTitle = NSLocalizedString(@"Send", "");
-		if([postImageSegmentedControl numberOfSegments] == 1)
-			[postImageSegmentedControl insertSegmentWithTitle:secondSegTitle atIndex:1 animated:YES];
-		else if (![[postImageSegmentedControl titleForSegmentAtIndex:1] isEqualToString:secondSegTitle])
-			[postImageSegmentedControl setTitle:secondSegTitle forSegmentAtIndex:1];
-	}
-	else
-	{
-		while([postImageSegmentedControl numberOfSegments] > 1)
-			[postImageSegmentedControl removeSegmentAtIndex:[postImageSegmentedControl numberOfSegments] - 1 animated:YES];
-	}
-
-	if([postImageSegmentedControl numberOfSegments] == 1)
-		[postImageSegmentedControl setWidth:SEGMENT_CNTRL_WIDTH forSegmentAtIndex:0];
-	else
-		[postImageSegmentedControl setWidth:FIRST_SEGMENT_WIDTH forSegmentAtIndex:0];*/
-
-//return;	
-/*	if(inTextEditingMode)
-	{
-		if(self.navigationItem.rightBarButtonItem != doneEditButton)
-			[[self navigationItem] setRightBarButtonItem:doneEditButton animated:YES];
-	}
-	else if(image.image)
-	{
-		if(self.navigationItem.rightBarButtonItem != sendButton)
-			[[self navigationItem] setRightBarButtonItem:sendButton animated:YES];
-	}
-	else
-	{
-		if(self.navigationItem.rightBarButtonItem)
-			[[self navigationItem] setRightBarButtonItem:nil animated:YES];
-	}*/
-	
-//	[UIView beginAnimations:nil context:nil];
-//	[UIView setAnimationDuration:0.2];  
-//	[UIView commitAnimations];
 
 }
 
@@ -180,30 +112,14 @@
 			if(![newText hasSuffix:@"\n"])
 				newText = [newText stringByAppendingString:@"\n"];
 			[self setMessageTextText:[newText stringByAppendingString:urlPlaceholderMask]];
-//			messageText.text = [newText stringByAppendingString:urlPlaceholderMask];
 		}
 	}
 	else
 	{
 		if(urlPlaceHolderRange.location != NSNotFound)
 			[self setMessageTextText:[messageText.text stringByReplacingCharactersInRange:urlPlaceHolderRange withString:@""]];
-//			messageText.text = [messageText.text stringByReplacingCharactersInRange:urlPlaceHolderRange withString:@""];
 	}
 }
-
-/*
--(id)init
-{
-	self = [super init];
-	if(self)
-	{
-		inTextEditingMode = NO;
-		suspendedOperation = noOperations;
-		urlPlaceholderMask = [NSLocalizedString(@"YFrog image URL placeholder", @"") retain];
-	}
-	return self;
-}
-*/
 
 - (void)initData
 {
@@ -235,7 +151,6 @@
 {
 	if(self.progressSheet)
 	{
-//		if(self.progressSheet.visible)
 		[self.progressSheet dismissWithClickedButtonIndex:0 animated:YES];
 		self.progressSheet = nil;
 	}
@@ -243,19 +158,12 @@
 
 - (void)dealloc 
 {
-	//	[imgPicker release];
-	//	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	while (_indicatorCount) 
-	{
 		[self releaseActivityIndicator];
-	}
 
-//	int connectionsCount = [_twitter numberOfConnections];
 	[_twitter closeAllConnections];
 	[_twitter removeDelegate];
 	[_twitter release];
-//	while(connectionsCount-- > 0)
-//		[TweetterAppDelegate decreaseNetworkActivityIndicator];
 
 	[_indicator release];
 
@@ -265,31 +173,10 @@
 	self.currentImageYFrogURL = nil;
 	self.connectionDelegate = nil;
 	self._message = nil;
-//	self.mgTwitterConnectionID = nil;
 	[self dismissProgressSheetIfExist];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
-
-
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
-{
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
-	{
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView 
-{
-}
-*/
 
 - (void)setQueueTitle
 {
@@ -321,55 +208,24 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo 
 {
-//	long dataLen = [UIImageJPEGRepresentation(img, 1.0f)	length];
-//	return;
-	
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
 	twitWasChangedManually = YES;
 	messageTextWillIgnoreNextViewAppearing = YES;
-//	[picker.visibleViewController.view addSubview:_imagePickerIndicator];
-//	[_imagePickerIndicator startAnimating];
 	BOOL startNewUpload = img != image.image;
 	if(img != image.image)
 		[self setImageImage:img];	
 	[self setNavigatorButtons];
-/*	
-//NSLog(@"before first conversation");
-NSData* imData = UIImageJPEGRepresentation(img, 1.0f);
-//NSLog(@"after first conversation len == %ld", [imData length]);
-//NSLog(@"before image scaling");
-CGSize newSize = {1024, 1024};
-UIImage* image2 = imageScaledToSize(img, newSize);
-//NSLog(@"after image scaling");
-//NSLog(@"before second conversation");
-imData = UIImageJPEGRepresentation(image2, 1.0f);
-//NSLog(@"after second conversation len == %ld", [imData length]);
-[self setImageImage:image2];	
-*/	
-	
-	//NSLog(@"1");
+
 	if(startNewUpload)
 	{
 		if(self.connectionDelegate)
 			[self.connectionDelegate cancel];
 		self.connectionDelegate = nil;
 		self.currentImageYFrogURL = nil;
-/*		ImageUploader * uploader = [[ImageUploader alloc] init];
-		self.connectionDelegate = uploader;
-		//NSLog(@"2");
-
-		[self retainActivityIndicator];
-		[uploader postImage:img delegate:self userData:img];
-		//NSLog(@"8");
-		//NSLog(@"release in [TwitEditorController imagePickerController:didFinishPickingImage:]");
-		[uploader release];*/
 	}
-//	[_imagePickerIndicator stopAnimating];
-//	[_imagePickerIndicator removeFromSuperview];
 
 	[messageText becomeFirstResponder];
 	
-//	NSLog(@"imagePickerController");
 	BOOL needToResize;
 	BOOL needToRotate;
 	isImageNeedToConvert(img, &needToResize, &needToRotate);
@@ -386,91 +242,41 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-//	messageText.autocorrectionType = UITextAutocorrectionTypeNo;
 	UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
 	temporaryBarButtonItem.title = NSLocalizedString(@"Back", @"");
 	self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
 	[temporaryBarButtonItem release];
 	
-//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onLocationChanged)
-//												 name:@"UpdateLocationNotification" object:nil];
-
-
-//	self.imgPicker = [[UIImagePickerController alloc] init];
-//	self.imgPicker.allowsImageEditing = YES;
-//id test = self.navigationItem;
 	self.navigationItem.title = NSLocalizedString(@"New Tweet", @"");
-//	self.navigationItem.prompt = NSLocalizedString(@"New Tweettttt", @"");
-//	self.navigationItem = navItem;
-//	self.navigationItem.backBarButtonItem = backButton;
-//	self.navigationItem.leftBarButtonItem = backButton;
-//	self.navigationItem.backBarButtonItem.title = NSLocalizedString(@"Back", @"");;
-//	self.navigationItem.backButtonTitle = NSLocalizedString(@"Back", @"");;
-//	self.title = NSLocalizedString(@"Post Image", @"");
+
 	imgPicker.delegate = self;	
-//	imgPicker.editing = NO;
-//	imgPicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;	
-//	imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;	
-//	imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;	
-
-//	UINavigationController *theNavigationController;
-//	theNavigationController = [[UINavigationController alloc] initWithRootViewController:self];
-
 	messageText.delegate = self;
 	
 	postImageSegmentedControl.frame = CGRectMake(0, 0, SEND_SEGMENT_CNTRL_WIDTH, 30);
-//	postImageSegmentedControl.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//	postImageSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
 	segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:postImageSegmentedControl];
 	[postImageSegmentedControl setWidth:FIRST_SEND_SEGMENT_WIDTH forSegmentAtIndex:0];
 	defaultTintColor = [postImageSegmentedControl.tintColor retain];	// keep track of this for later
 	
-//	if([[LocationManager locationManager] locationDefined])
-//		messageText.text = [NSString stringWithFormat:@"\n\n%@", [[LocationManager locationManager] mapURL]];
-
 	[self setURLPlaceholder];
 	
-//	[self textViewDidChange:messageText];
-//	imagesSegmentedControl.tag = IMAGES_SEGMENT_CONTROLLER_TAG;
-
 	BOOL cameraEnabled = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
 	BOOL libraryEnabled = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
 	if(!cameraEnabled && !libraryEnabled)
 		[pickImage setHidden:YES];
-//		[imagesSegmentedControl setHidden:YES];
-/*	else if(!cameraEnabled)
-		[imagesSegmentedControl setEnabled:NO forSegmentAtIndex:0];
-	else if(!libraryEnabled)
-		[imagesSegmentedControl setEnabled:NO forSegmentAtIndex:1]; */
 
 	image.actualNavigationController = self.navigationController;
 	[messageText becomeFirstResponder];
 	inTextEditingMode = YES;
 	
-	
-	
 	_indicatorCount = 0;
 	_indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	CGRect frame = image.frame;
 	CGRect indFrame = _indicator.frame;
-//	indFrame.size.width *= 2;
-//	indFrame.size.height *= 2;
 	frame.origin.x = (int)((image.frame.size.width - indFrame.size.width) * 0.5f) + 1;
 	frame.origin.y = (int)((image.frame.size.height - indFrame.size.height) * 0.5f) + 1;
 	frame.size = indFrame.size;
 	_indicator.frame = frame;
-	
-	
-/*	_imagePickerIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-	frame = self.view.frame;
-	indFrame = _indicator.frame;
-	frame.origin.x += (frame.size.width - indFrame.size.width) * 0.5f;
-	frame.origin.y += (frame.size.height - indFrame.size.height) * 0.3f;
-	frame.size = indFrame.size;
-	_indicator.frame = frame;*/
-	
-	
-	
+		
 	[self setQueueTitle];
 	[self setNavigatorButtons];
 }
@@ -487,23 +293,11 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 	if(NSIntersectionRange(urlPlaceHolderRange, range).length > 0)
 		return NO;		
 	
-//	return MAX_SYMBOLS_COUNT_IN_TEXT_VIEW >= [textView.text length] - range.length + [text length];
 	return YES;
 }
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-/*	BOOL test = [textView isFirstResponder];
-	if(test)
-	{
-		int r = 8;
-		r++;
-		
-	}*/
-//	[textView setNeedsDisplay]; //because of wrong clipping in UITextView
-//	[textView setNeedsDisplay]; //because of wrong clipping in UITextView
-//	CGSize contentSize = textView.contentSize;
-//	textView.contentSize.height = 100;
 	twitWasChangedManually = YES;
 	[self setCharsCount];
 	[self setNavigatorButtons];
@@ -521,25 +315,14 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 	[self setNavigatorButtons];
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-	int i = 8;
-	i++;
+
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-	int i = 8;
-	i++;
+
 }
 
 - (void)didReceiveMemoryWarning 
@@ -550,58 +333,12 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 
 
 - (IBAction)finishEditAction
-//- (void)finishEditAction
 {
 	[messageText resignFirstResponder];
 }
 
-//- (IBAction)grabImage 
 - (void)grabImage 
 {
-/*	if([messageText.text rangeOfString:urlPlaceholderMask].location == NSNotFound && [messageText.text length] + 1 + [urlPlaceholderMask length] > MAX_SYMBOLS_COUNT_IN_TEXT_VIEW)
-	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"You can not add image", @"") 
-														message:[NSString stringWithFormat:NSLocalizedString(@"Remove some chars", @""), 1 + [urlPlaceholderMask length]]
-													   delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
-		[alert show];
-		[alert release];
-		return;
-	} */
-	
-//	[self presentModalViewController:imgPicker animated:YES];
-
-
-//	[self finishEditAction];
-/*	BOOL cameraEnabled = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
-	BOOL libraryEnabled = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
-	NSString* firstButton = nil;
-	NSString* secondButton = nil;
-	int tag = 0;
-	if(cameraEnabled && libraryEnabled)
-	{
-		tag = PHOTO_SOURCE_CAMERA_AND_LIBRARY_ACTION_SHEET_TAG;
-		firstButton = NSLocalizedString(@"Use camera", @"");
-		secondButton = NSLocalizedString(@"Use library", @"");
-	}
-	else if(cameraEnabled)
-	{
-		tag = PHOTO_SOURCE_CAMERA_ACTION_SHEET_TAG;
-		firstButton = NSLocalizedString(@"Use camera", @"");
-	}
-	else
-	{
-		tag = PHOTO_SOURCE_LIBRARY_ACTION_SHEET_TAG;
-		firstButton = NSLocalizedString(@"Use library", @"");
-	}
-	
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil //NSLocalizedString(@"Library or camera", @"")
-									delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil
-									otherButtonTitles:firstButton, secondButton, nil];
-	actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-	actionSheet.tag = tag;
-	[actionSheet showInView:self.tabBarController.view];
-	[actionSheet release];*/
-	
 	BOOL cameraEnabled = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
 	BOOL libraryEnabled = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
 	BOOL imageAlreadyExists = image.image != nil;
@@ -628,7 +365,7 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 			secondButton = NSLocalizedString(@"RemoveImageTitle" , @"");
 	}
 	
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil //NSLocalizedString(@"Library or camera", @"")
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
 															 delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil
 													otherButtonTitles:firstButton, secondButton, thirdButton, nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
@@ -642,97 +379,6 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 {
 	[self grabImage];
 }
-
-/*
-//- (IBAction)postImageAction 
-- (void)postImageAction 
-{
-//	imageDownoader * downloader = [[imageDownoader alloc] init];
-//	[downloader getImageFromURL:@"http://yfrog.com/0412mj" imageType:full delegate:self];
-//	[downloader getImageFromURL:@"http://yfrog.com/0412mj" imageType:iPhone delegate:self];
-//	[downloader getImageFromURL:@"http://yfrog.com/0412mj" imageType:thumbnail delegate:self];
-//	[downloader release];
-//	return;
-	//For testing only!!!
-
-
-	if(!image.image)
-		return;
-
-	NSString* login = [MGTwitterEngine username];
-	NSString* pass = [MGTwitterEngine password];
-	
-	if(!login || !pass)
-	{
-		[LoginController showModal:self.navigationController];
-		return;
-	}
-
-//	NSString *imageFileName = @"TestImage.jpg";
-//	NSString *pathToImage = [@"~/Desktop/chizhik.gif" stringByExpandingTildeInPath];
-	NSString *boundary = [NSString stringWithFormat:@"------%ld__%ld__%ld", random(), random(), random()];
-	
-	NSURL *url = [NSURL URLWithString:@"http://yfrog.com/api/uploadAndPost"];
-	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
-	[req setHTTPMethod:@"POST"];
-
-	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-	[req setValue:contentType forHTTPHeaderField:@"Content-type"];
-	
-//	NSData *imageData = [NSData dataWithContentsOfFile:pathToImage options:0 error:nil];
-	
-	//adding the body:
-	NSMutableData *postBody = [NSMutableData data];
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[postBody appendData:[@"Content-Disposition: form-data; name=\"media\"; filename=\"iPhoneImage\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[@"Content-Type: image/jpeg\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[@"Content-Transfer-Encoding: binary\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:UIImageJPEGRepresentation(image.image, 1.0f)];
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[postBody appendData:[@"Content-Disposition: form-data; name=\"username\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[login dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[postBody appendData:[@"Content-Disposition: form-data; name=\"password\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[pass dataUsingEncoding:NSUTF8StringEncoding]];
-
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[postBody appendData:[@"Content-Disposition: form-data; name=\"message\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[messageText.text dataUsingEncoding:NSUTF8StringEncoding]];
-//	if([[LocationManager locationManager] locationDefined])
-//	{
-//		[postBody appendData:[@" " dataUsingEncoding:NSUTF8StringEncoding]];
-//		[postBody appendData:[[[LocationManager locationManager] mapURL] dataUsingEncoding:NSUTF8StringEncoding]];
-//	}
-//
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[req setHTTPBody:postBody];
-
-	NSArray* addresses = nil;
-//	if([[NSUserDefaults standardUserDefaults] boolForKey:@"PostMail"])
-//		addresses = [[NSUserDefaults standardUserDefaults] arrayForKey:@"PostMailAddresses"];
-	[[PostFilesDelegate alloc] initWithRequest:req mailAddresses:addresses TwitEditorController:self];
-//	NSURLConnection *connection = [[[NSURLConnection alloc] initWithRequest:req delegate:conDelegate startImmediately:NO] autorelease];
-	
-	
-//	NSError* err = nil;
-//	NSURLResponse* response = nil;
-//	NSData* returnedData = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&err];
-//	NSString* postedStr = [[[NSString alloc] initWithData:postBody encoding:NSUTF8StringEncoding] autorelease];
-//	//NSLog(postedStr);
-//	NSString* returnedStr = [[[NSString alloc] initWithData:returnedData encoding:NSUTF8StringEncoding] autorelease];
-//	//NSLog(returnedStr);
-	
-	
-//	imageDownoader * downloader = [[imageDownoader alloc] init];
-//	[downloader getImageFromURL:@"http://yfrog.com/0412mj" imageType:full delegate:self];
-//	[downloader release];
-}
-*/
 
 - (void)startUploadingOfPickedImageIfNeed
 {
@@ -754,12 +400,10 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 		
 }
 
-//- (IBAction)postImageAction 
 - (void)postImageAction 
 {
 	if(!image.image && ![[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length])
 		return;
-
 
 	if([messageText.text length] > MAX_SYMBOLS_COUNT_IN_TEXT_VIEW)
 	{
@@ -771,7 +415,6 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 		return;
 	}
 
-	
 	if(!self.currentImageYFrogURL && image.image && !self.progressSheet)
 	{
 		suspendedOperation = send;
@@ -823,80 +466,6 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 		[[TweetQueue sharedQueue] deleteMessage:_queueIndex];
 
 	return;
-	
-/*	
-	NSString* login = [MGTwitterEngine username];
-	NSString* pass = [MGTwitterEngine password];
-	
-	if(!login || !pass)
-	{
-		[LoginController showModal:self.navigationController];
-		return;
-	}
-	
-	//	NSString *imageFileName = @"TestImage.jpg";
-	//	NSString *pathToImage = [@"~/Desktop/chizhik.gif" stringByExpandingTildeInPath];
-	NSString *boundary = [NSString stringWithFormat:@"------%ld__%ld__%ld", random(), random(), random()];
-	
-	NSURL *url = [NSURL URLWithString:@"http://yfrog.com/api/uploadAndPost"];
-	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
-	[req setHTTPMethod:@"POST"];
-	
-	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-	[req setValue:contentType forHTTPHeaderField:@"Content-type"];
-	
-	//	NSData *imageData = [NSData dataWithContentsOfFile:pathToImage options:0 error:nil];
-	
-	//adding the body:
-	NSMutableData *postBody = [NSMutableData data];
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[postBody appendData:[@"Content-Disposition: form-data; name=\"media\"; filename=\"iPhoneImage\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[@"Content-Type: image/jpeg\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[@"Content-Transfer-Encoding: binary\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:UIImageJPEGRepresentation(image.image, 1.0f)];
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[postBody appendData:[@"Content-Disposition: form-data; name=\"username\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[login dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[postBody appendData:[@"Content-Disposition: form-data; name=\"password\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[pass dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[postBody appendData:[@"Content-Disposition: form-data; name=\"message\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[messageText.text dataUsingEncoding:NSUTF8StringEncoding]];
-//	if([[LocationManager locationManager] locationDefined])
-//	{
-//		 [postBody appendData:[@" " dataUsingEncoding:NSUTF8StringEncoding]];
-//		 [postBody appendData:[[[LocationManager locationManager] mapURL] dataUsingEncoding:NSUTF8StringEncoding]];
-//	}
-	
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[req setHTTPBody:postBody];
-	
-	NSArray* addresses = nil;
-	//	if([[NSUserDefaults standardUserDefaults] boolForKey:@"PostMail"])
-	//		addresses = [[NSUserDefaults standardUserDefaults] arrayForKey:@"PostMailAddresses"];
-	[[PostFilesDelegate alloc] initWithRequest:req mailAddresses:addresses TwitEditorController:self];
-	//	NSURLConnection *connection = [[[NSURLConnection alloc] initWithRequest:req delegate:conDelegate startImmediately:NO] autorelease];
-	
-	
-	//	NSError* err = nil;
-	//	NSURLResponse* response = nil;
-	//	NSData* returnedData = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&err];
-	//	NSString* postedStr = [[[NSString alloc] initWithData:postBody encoding:NSUTF8StringEncoding] autorelease];
-	//	//NSLog(postedStr);
-	//	NSString* returnedStr = [[[NSString alloc] initWithData:returnedData encoding:NSUTF8StringEncoding] autorelease];
-	//	//NSLog(returnedStr);
-	
-	
-	//	imageDownoader * downloader = [[imageDownoader alloc] init];
-	//	[downloader getImageFromURL:@"http://yfrog.com/0412mj" imageType:full delegate:self];
-	//	[downloader release];*/
 }
 
 - (void)postImageLaterAction
@@ -936,7 +505,6 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 	{
 		if(connectionDelegate)
 			[connectionDelegate cancel];
-//		self.connectionDelegate = nil;
 		[self setImageImage:nil];	
 		[self setMessageTextText:@""];
 		[messageText becomeFirstResponder];
@@ -999,69 +567,11 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 	}
 	
 	NSString* mapURL = [NSString stringWithFormat:NSLocalizedString(@"LocationLinkFormat", @""), [[LocationManager locationManager] mapURL]];
-/*	if([messageText.text length] + 1 + [mapURL length] > MAX_SYMBOLS_COUNT_IN_TEXT_VIEW)
-	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"You can not add location", @"") 
-														message:[NSString stringWithFormat:NSLocalizedString(@"Remove some chars", @""), 1 + [mapURL length]]
-													   delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
-		[alert show];
-		[alert release];
-		return;
-	} */
-
 	NSRange selectedRange = messageText.selectedRange;
 	[self setMessageTextText:[NSString stringWithFormat:@"%@\n%@", messageText.text, mapURL]];
-//	messageText.text = [NSString stringWithFormat:@"%@\n%@", messageText.text, mapURL];
 	messageText.selectedRange = selectedRange;
 }
 
-/*
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	if(buttonIndex == actionSheet.cancelButtonIndex)
-		return;
-	
-	imgPicker.sourceType = (buttonIndex == 0) ? UIImagePickerControllerSourceTypePhotoLibrary : UIImagePickerControllerSourceTypeCamera;
-	[self presentModalViewController:imgPicker animated:YES];
-}
-*/
-
-/*
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	if(actionSheet.tag == PHOTO_SOURCE_CAMERA_AND_LIBRARY_ACTION_SHEET_TAG ||
-		actionSheet.tag == PHOTO_SOURCE_LIBRARY_ACTION_SHEET_TAG ||
-		actionSheet.tag == PHOTO_SOURCE_CAMERA_ACTION_SHEET_TAG)
-	{
-		if(buttonIndex == actionSheet.cancelButtonIndex)
-			return;
-		
-		switch(actionSheet.tag)
-		{
-			case PHOTO_SOURCE_CAMERA_AND_LIBRARY_ACTION_SHEET_TAG:
-				imgPicker.sourceType = (buttonIndex == 0) ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
-				break;
-			case PHOTO_SOURCE_CAMERA_ACTION_SHEET_TAG:
-				imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-				break;
-			case PHOTO_SOURCE_LIBRARY_ACTION_SHEET_TAG:
-			default:
-				imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-				break;
-
-		}
-
-		[self presentModalViewController:imgPicker animated:YES];
-	}
-	else
-	{
-		suspendedOperation = noTEOperations;
-		[self dismissProgressSheetIfExist];
-		if(connectionDelegate)
-			[connectionDelegate cancel];
-	}
-}
- */
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if(actionSheet.tag == PHOTO_Q_SHEET_TAG)
@@ -1107,9 +617,6 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 		[self setMessageTextText:[NSString stringWithFormat:NSLocalizedString(@"ReTwitFormat", @""), username, body]];
 	else
 		[self setMessageTextText:body];
-//	messageText.text = body;
-//	_textModified = NO;
-//	[self textViewDidChange:messageText];
 }
 
 - (void)setReplyToMessage:(NSDictionary*)message
@@ -1117,58 +624,8 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 	self._message = message;
 	NSString *replyToUser = [[message objectForKey:@"user"] objectForKey:@"screen_name"];
 	[self setMessageTextText:[NSString stringWithFormat:@"@%@ ", replyToUser]];
-//	messageText.text = [NSString stringWithFormat:@"@%@ ", replyToUser];
-//	[self textViewDidChange:messageText];
 }
 
-
-
-/*
-#pragma mark NSURLConnection delegate methods
-
-
-- (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-//    [result setLength:0];
-}
-
-
-- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-//    [result appendData:data];
-}
-
-
-- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    [connection release];
-}
-
-
-- (NSCachedURLResponse *) connection:(NSURLConnection *)connection 
-                   willCacheResponse:(NSCachedURLResponse *)cachedResponse
-{
-     return cachedResponse;
-}
-
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection
-{
-	[connection release];
-}
-*/
-//For testing only!!!
-/*
-- (void)receivedImage:(UIImage*)yfrogImage fromYFrogURL:(NSString*)imageURL imageType:(ImageType)imageType
-{
-	image.image = yfrogImage;	
-}
-*/
-/*
--(void) onLocationChanged
-{
-	[self setCharsCount];
-}
-*/
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
@@ -1190,7 +647,6 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 {
 	[self setImageImage:nil];
 	[self setMessageTextText:@""];
-//	messageText.text = @"";
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
@@ -1200,25 +656,12 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 	switch([sender selectedSegmentIndex])
 	{
 		case 0:
-/*			if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-			{
-				imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-				[self grabImage];
-			}*/
 			[self grabImage];
 			break;
-/*		case 1:
-			if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
-			{
-				imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-				[self grabImage];
-			}
-			break;*/
 		case 1:
 			[self setImageImage:nil];
 			if(connectionDelegate)
 				[connectionDelegate cancel];
-//			self.connectionDelegate = nil;
 			self.currentImageYFrogURL = nil;
 			break;
 		default:
@@ -1241,40 +684,16 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 	}
 }
 
-/*
-//For Navigation Bar
-- (IBAction)segmentedActions:(id)sender
-{
-	switch([sender selectedSegmentIndex])
-	{
-		case 0:
-			[self grabImage];
-			break;
-		case 1:
-			if([[postImageSegmentedControl titleForSegmentAtIndex:1] isEqualToString:NSLocalizedString(@"Done", @"")])
-				[self finishEditAction];
-			else if([[postImageSegmentedControl titleForSegmentAtIndex:1] isEqualToString:NSLocalizedString(@"Send", @"")])
-				[self postImageAction]; 
-			break;
-		default:
-			break;
-	}
-}
-*/
-
 - (void)uploadedImage:(NSString*)yFrogURL sender:(ImageUploader*)sender
 {
-//	self.connectionDelegate = nil;
 	[self releaseActivityIndicator];
 	if(sender.userData == image.image) // don't kill later connection
 	{
-		//NSLog(@"release in [TwitEditorController uploadedImage] (sender.userData == image.image)");
 		self.connectionDelegate = nil;
 		self.currentImageYFrogURL = yFrogURL;
 	}
 	else if(!image.image)
 	{
-		//NSLog(@"release in [TwitEditorController uploadedImage] (!image.image)");
 		self.connectionDelegate = nil;
 		self.currentImageYFrogURL = nil;
 	}
@@ -1296,18 +715,6 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 		}
 	}
 }
-/*
-- (BOOL)uploadingImageWasScaled:(NSDictionary*)images
-{
-	UIImage* largeImage = [images objectForKey:@"large"];
-	UIImage* smallerImage = [images objectForKey:@"small"];
-	BOOL imageIsStillActual = largeImage == image.image;
-	if(imageIsStillActual)
-		[self setImageImage:smallerImage];
-
-	return imageIsStillActual;
-}
-*/
 
 #pragma mark MGTwitterEngineDelegate methods
 
@@ -1317,7 +724,6 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 	[self dismissProgressSheetIfExist];
 	[[NSNotificationCenter defaultCenter] postNotificationName: @"TwittsUpdated" object: nil];
 	self.connectionDelegate = nil;
-    //NSLog(@"Request succeeded for connectionIdentifier = %@", connectionIdentifier);
 	image.image = nil;
 	[self setMessageTextText:@""];
 	[messageText becomeFirstResponder];
@@ -1333,10 +739,6 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 	[self dismissProgressSheetIfExist];
 	self.connectionDelegate = nil;
 	postImageSegmentedControl.enabled = YES;
-	/*NSLog(@"Request failed for connectionIdentifier = %@, error = %@ (%@)", 
-          connectionIdentifier, 
-          [error localizedDescription], 
-          [error userInfo]);*/
 	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed!", @"") message:[error localizedDescription]
 												   delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
@@ -1358,7 +760,6 @@ imData = UIImageJPEGRepresentation(image2, 1.0f);
 	[self.navigationController popViewControllerAnimated:YES];
 	if(connectionDelegate)
 		[connectionDelegate cancel];
-//	self.connectionDelegate = nil;
 	[self setImageImage:nil];	
 	[self setMessageTextText:@""];
 	[messageText resignFirstResponder];
