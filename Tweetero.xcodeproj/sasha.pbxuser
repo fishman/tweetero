@@ -84,7 +84,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					315,
+					227,
 					20,
 					48,
 					43,
@@ -147,8 +147,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 261441982;
-			PBXWorkspaceStateSaveDate = 261441982;
+			PBXPerProjectTemplateStateSaveDate = 261701408;
+			PBXWorkspaceStateSaveDate = 261701408;
 		};
 		sourceControlManager = D92493F20F68BB6A00E5F8F7 /* Source Control */;
 		userBuildSettings = {
@@ -478,9 +478,9 @@
 	};
 	D959B7990F65A1FF00CBBA1A /* MessageViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {888, 7518}}";
-			sepNavSelRange = "{7031, 0}";
-			sepNavVisRange = "{5694, 2252}";
+			sepNavIntBoundsRect = "{{0, 0}, {1014, 6496}}";
+			sepNavSelRange = "{8204, 0}";
+			sepNavVisRange = "{8167, 1319}";
 		};
 	};
 	D96BACEB0F6365020034A131 /* ImageLoader.h */ = {
