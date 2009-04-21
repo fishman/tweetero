@@ -59,6 +59,11 @@
 		[TweetterAppDelegate decreaseNetworkActivityIndicator];
 
 	[_messages release];
+	
+	
+	if(_errorDesc)
+		[_errorDesc release];
+	
 	[super dealloc];
 }
 
@@ -66,6 +71,7 @@
 {
     [super viewDidLoad];
 	
+	_errorDesc = nil;
 	_lastMessage = NO;
 	_loading = [MGTwitterEngine username] != nil;
 	_indicatorCount = 0;
@@ -218,7 +224,10 @@
 
 	if([self noMessages])
 	{
-		cell.text = _loading? [self loadingMessagesString]: [self noMessagesString];
+		if(_errorDesc)
+			cell.text = _errorDesc;
+		else
+			cell.text = _loading? [self loadingMessagesString]: [self noMessagesString];
 		return;
 	}
     
@@ -382,6 +391,7 @@
 			self.navigationItem.leftBarButtonItem.enabled = YES;
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	_loading = NO;
+	_errorDesc = [[[error localizedDescription] capitalizedString] retain];
 	
 	[self releaseActivityIndicator];
 	
@@ -516,6 +526,11 @@ NSInteger dateReverseSort(id num1, id num2, void *context)
 {
 	if([MGTwitterEngine password] != nil)
 	{
+		if(_errorDesc)
+		{
+			[_errorDesc release];
+			_errorDesc = nil;
+		}
 		_loading = YES;
 		[self retainActivityIndicator];
 		if(self.navigationItem.leftBarButtonItem)

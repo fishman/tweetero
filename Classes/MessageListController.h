@@ -39,6 +39,7 @@
 	UIActivityIndicatorView *_indicator;
 	int _indicatorCount;
 	BOOL _loading;
+	NSString *_errorDesc;
 }
 
 - (void)loadMessagesStaringAtPage:(int)numPage count:(int)count;

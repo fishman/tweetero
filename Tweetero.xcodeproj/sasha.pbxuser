@@ -29,6 +29,7 @@
 			1D6058900D05DD3D006BFB54 /* Tweetero */,
 		);
 		breakpoints = (
+			D9F957880F9E56D800FF0CB6 /* MessageListController.m:390 */,
 		);
 		codeSenseManager = D92493F30F68BB6A00E5F8F7 /* Code sense */;
 		executables = (
@@ -147,8 +148,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 261701408;
-			PBXWorkspaceStateSaveDate = 261701408;
+			PBXPerProjectTemplateStateSaveDate = 262033884;
+			PBXWorkspaceStateSaveDate = 262033884;
 		};
 		sourceControlManager = D92493F20F68BB6A00E5F8F7 /* Source Control */;
 		userBuildSettings = {
@@ -301,7 +302,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 1;
+		breakpointsEnabled = 0;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 0;
@@ -352,16 +353,16 @@
 	};
 	D93537060F7091F60005DA7D /* MessageListController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1062, 686}}";
-			sepNavSelRange = "{1931, 0}";
-			sepNavVisRange = "{0, 1774}";
+			sepNavIntBoundsRect = "{{0, 0}, {1183, 800}}";
+			sepNavSelRange = "{1773, 8}";
+			sepNavVisRange = "{288, 1666}";
 		};
 	};
 	D93537070F7091F60005DA7D /* MessageListController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {954, 8302}}";
-			sepNavSelRange = "{17567, 0}";
-			sepNavVisRange = "{13394, 1348}";
+			sepNavIntBoundsRect = "{{0, 0}, {1183, 9136}}";
+			sepNavSelRange = "{6802, 0}";
+			sepNavVisRange = "{6490, 861}";
 		};
 	};
 	D93537190F7099630005DA7D /* UserMessageListController.h */ = {
@@ -580,5 +581,22 @@
 			sepNavSelRange = "{11691, 0}";
 			sepNavVisRange = "{7523, 834}";
 		};
+	};
+	D9F957880F9E56D800FF0CB6 /* MessageListController.m:390 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = D93537070F7091F60005DA7D /* MessageListController.m */;
+		functionName = "-requestFailed:withError:";
+		hitCount = 1;
+		ignoreCount = 0;
+		lineNumber = 390;
+		location = Tweetero;
+		modificationTime = 262035180.11076;
+		state = 1;
 	};
 }

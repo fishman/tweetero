@@ -195,56 +195,7 @@
 	<key>Name</key>
 	<string>Default</string>
 	<key>Notifications</key>
-	<array>
-		<dict>
-			<key>XCObserverAutoDisconnectKey</key>
-			<true/>
-			<key>XCObserverDefintionKey</key>
-			<dict>
-				<key>PBXStatusErrorsKey</key>
-				<integer>0</integer>
-			</dict>
-			<key>XCObserverFactoryKey</key>
-			<string>XCPerspectivesSpecificationIdentifier</string>
-			<key>XCObserverGUIDKey</key>
-			<string>XCObserverProjectIdentifier</string>
-			<key>XCObserverNotificationKey</key>
-			<string>PBXStatusBuildStateMessageNotification</string>
-			<key>XCObserverTargetKey</key>
-			<string>XCMainBuildResultsModuleGUID</string>
-			<key>XCObserverTriggerKey</key>
-			<string>awakenModuleWithObserver:</string>
-			<key>XCObserverValidationKey</key>
-			<dict>
-				<key>PBXStatusErrorsKey</key>
-				<integer>2</integer>
-			</dict>
-		</dict>
-		<dict>
-			<key>XCObserverAutoDisconnectKey</key>
-			<true/>
-			<key>XCObserverDefintionKey</key>
-			<dict>
-				<key>PBXStatusWarningsKey</key>
-				<integer>0</integer>
-			</dict>
-			<key>XCObserverFactoryKey</key>
-			<string>XCPerspectivesSpecificationIdentifier</string>
-			<key>XCObserverGUIDKey</key>
-			<string>XCObserverProjectIdentifier</string>
-			<key>XCObserverNotificationKey</key>
-			<string>PBXStatusBuildStateMessageNotification</string>
-			<key>XCObserverTargetKey</key>
-			<string>XCMainBuildResultsModuleGUID</string>
-			<key>XCObserverTriggerKey</key>
-			<string>awakenModuleWithObserver:</string>
-			<key>XCObserverValidationKey</key>
-			<dict>
-				<key>PBXStatusWarningsKey</key>
-				<integer>2</integer>
-			</dict>
-		</dict>
-	</array>
+	<array/>
 	<key>OpenEditors</key>
 	<array/>
 	<key>PerspectiveWidths</key>
@@ -280,6 +231,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -350,7 +303,7 @@
 							<real>278</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>279 252 788 504 0 0 1680 1028 </string>
+						<string>321 235 788 504 0 0 1680 1028 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -387,7 +340,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {466, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>279 252 788 504 0 0 1680 1028 </string>
+								<string>321 235 788 504 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -395,8 +348,6 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -409,7 +360,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {466, 458}}</string>
 								<key>RubberWindowFrame</key>
-								<string>279 252 788 504 0 0 1680 1028 </string>
+								<string>321 235 788 504 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -433,9 +384,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>D914B4B70F993FA000B427FA</string>
+				<string>D9F9578A0F9E56DB00FF0CB6</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>D914B4B80F993FA000B427FA</string>
+				<string>D9F9578B0F9E56DB00FF0CB6</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -554,7 +505,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>261701632.92961901</real>
+	<real>0.0</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -569,17 +520,17 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>D914B4C80F99400000B427FA</string>
-		<string>D914B4C10F993FA000B427FA</string>
-		<string>D914B4C30F993FA000B427FA</string>
+		<string>D9F9579D0F9E58AF00FF0CB6</string>
+		<string>D9F957950F9E56DB00FF0CB6</string>
 		<string>D92493F00F68BB6A00E5F8F7</string>
-		<string>/Users/sasha/tweetero/Tweetero.xcodeproj</string>
-		<string>D914B4C40F993FA000B427FA</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>/Users/sasha/tweetero/Tweetero.xcodeproj</string>
 		<string>1CD10A99069EF8BA00B06720</string>
+		<string>D9F9579E0F9E58AF00FF0CB6</string>
+		<string>D9F957960F9E56DB00FF0CB6</string>
 	</array>
 	<key>WindowString</key>
-	<string>279 252 788 504 0 0 1680 1028 </string>
+	<string>321 235 788 504 0 0 1680 1028 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -617,8 +568,6 @@
 							<string>438pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -628,7 +577,7 @@
 								<key>XCBuildResultsTrigger_Collapse</key>
 								<integer>1021</integer>
 								<key>XCBuildResultsTrigger_Open</key>
-								<integer>1013</integer>
+								<integer>1011</integer>
 							</dict>
 							<key>GeometryConfiguration</key>
 							<dict>
@@ -658,7 +607,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>D92493F00F68BB6A00E5F8F7</string>
-				<string>D914B4B90F993FA000B427FA</string>
+				<string>D9F9578C0F9E56DB00FF0CB6</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -669,7 +618,7 @@
 			<key>WindowToolGUID</key>
 			<string>D92493F00F68BB6A00E5F8F7</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -752,10 +701,10 @@
 									<key>Frame</key>
 									<string>{{520, 0}, {592, 370}}</string>
 									<key>RubberWindowFrame</key>
-									<string>117 167 1112 740 0 0 1680 1028 </string>
+									<string>105 288 1112 740 0 0 1680 1028 </string>
 								</dict>
 								<key>RubberWindowFrame</key>
-								<string>117 167 1112 740 0 0 1680 1028 </string>
+								<string>105 288 1112 740 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugSessionModule</string>
@@ -778,18 +727,18 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>D914B4BA0F993FA000B427FA</string>
+				<string>D9F9578D0F9E56DB00FF0CB6</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>D914B4BB0F993FA000B427FA</string>
-				<string>D914B4BC0F993FA000B427FA</string>
-				<string>D914B4BD0F993FA000B427FA</string>
-				<string>D914B4BE0F993FA000B427FA</string>
-				<string>D914B4BF0F993FA000B427FA</string>
+				<string>D9F9578E0F9E56DB00FF0CB6</string>
+				<string>D9F9578F0F9E56DB00FF0CB6</string>
+				<string>D9F957900F9E56DB00FF0CB6</string>
+				<string>D9F957910F9E56DB00FF0CB6</string>
+				<string>D9F957920F9E56DB00FF0CB6</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
 			<key>WindowString</key>
-			<string>117 167 1112 740 0 0 1680 1028 </string>
+			<string>105 288 1112 740 0 0 1680 1028 </string>
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
@@ -940,7 +889,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>D914B4C00F993FA000B427FA</string>
+				<string>D9F957930F9E56DB00FF0CB6</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
