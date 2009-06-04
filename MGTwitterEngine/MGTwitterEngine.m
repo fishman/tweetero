@@ -47,10 +47,10 @@
 #define HTTP_POST_METHOD        @"POST"
 #define MAX_MESSAGE_LENGTH      140 // Twitter recommends tweets of max 140 chars
 
-#define DEFAULT_CLIENT_NAME     @"Tweetero"
+#define DEFAULT_CLIENT_NAME     @"tweetero"
 #define DEFAULT_CLIENT_VERSION  @"1.0"
 #define DEFAULT_CLIENT_URL      @"http://yfrog.com"
-#define DEFAULT_CLIENT_TOKEN	@"Tweetero"
+#define DEFAULT_CLIENT_TOKEN	@"tweetero"
 
 #define URL_REQUEST_TIMEOUT     25.0 // Twitter usually fails quickly if it's going to fail at all.
 #define DEFAULT_TWEET_COUNT		20

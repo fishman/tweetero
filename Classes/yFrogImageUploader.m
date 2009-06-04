@@ -249,7 +249,7 @@
 	[delegate uploadedImage:nil sender:self];
 }
 
-- (BOOL)wasCanceled
+- (BOOL)canceled
 {
 	return wasCanceled;
 }

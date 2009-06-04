@@ -54,7 +54,7 @@
 - (void)postJPEGData:(NSData*)imageJPEGData delegate:(id <ImageUploaderDelegate>)dlgt userData:(id)data;
 - (void)postImage:(UIImage*)image delegate:(id <ImageUploaderDelegate>)dlgt userData:(id)data; // call postJPEGData:delegate:userData:
 - (void)cancel;
-- (BOOL)wasCanceled;
+- (BOOL)canceled;
 
 
 @property (nonatomic, retain) NSURLConnection *connection;
