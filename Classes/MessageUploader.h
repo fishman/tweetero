@@ -45,7 +45,7 @@
 													, MGConnectionDelegate
 										>
 {
-	BOOL			wasCanceled;
+	BOOL			canceled;
 	MGTwitterEngine *_twitter;
 	
 	NSString* _body;
@@ -57,7 +57,7 @@
 }
 
 - (void)cancel;
-- (BOOL)wasCanceled;
+- (BOOL)canceled;
 - (id)initWithText:(NSString*)text image:(UIImage*)image replayTo:(int)replayTo delegate:(id <MessageUploaderDelegate>)delegate; //call initWithText:imageJPEGData:replayTo:delegate:
 - (id)initWithText:(NSString*)text imageJPEGData:(NSData*)JPEGData replayTo:(int)replayTo delegate:(id <MessageUploaderDelegate>)delegate;
 

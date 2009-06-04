@@ -40,7 +40,7 @@
 		_twitter = [twitter retain];
 		mgTwitterConnectionID = [connectionID retain];
 		_delegate = [delegate retain];
-		wasCanceled = NO;
+		canceled = NO;
 	}
 	return self;
 }
@@ -59,14 +59,14 @@
 
 - (void)cancel
 {
-	wasCanceled = YES;
+	canceled = YES;
 	[_twitter closeConnection:mgTwitterConnectionID];
 	[_delegate MGConnectionCanceled:mgTwitterConnectionID];
 }
 
-- (BOOL)wasCanceled
+- (BOOL)canceled
 {
-	return wasCanceled;
+	return canceled;
 }
 
 

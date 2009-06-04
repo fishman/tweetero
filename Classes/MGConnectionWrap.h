@@ -40,13 +40,13 @@
 	MGTwitterEngine *_twitter;
 	NSString* mgTwitterConnectionID;
 	id <MGConnectionDelegate> _delegate;
-	BOOL			wasCanceled;
+	BOOL			canceled;
 }
 
 - (id)initWithTwitter:(MGTwitterEngine *)twitter 
 				connection:(NSString *)connectionID delegate:(id <MGConnectionDelegate>)delegate;
 - (void)cancel;
-- (BOOL)wasCanceled;
+- (BOOL)canceled;
 
 @property (nonatomic, retain) NSString* mgTwitterConnectionID;
 

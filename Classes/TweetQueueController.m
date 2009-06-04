@@ -166,7 +166,7 @@
 
 - (void)postNextMessage
 {
-	if(![[TweetQueue sharedQueue] count] /*|| wasCanceled*/)
+	if(![[TweetQueue sharedQueue] count] /*|| canceled*/)
 	{
 		[self dismissProgressSheetIfExist];
 		return;
@@ -199,7 +199,7 @@
 
 - (void)MessageUploadFinished:(BOOL)uploaded sender:(MessageUploader *)sender
 {
-	if([sender wasCanceled])
+	if([sender canceled])
 	{
 		[self dismissProgressSheetIfExist];
 		self._connection = nil;

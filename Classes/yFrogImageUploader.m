@@ -44,7 +44,7 @@
 	if(self)
 	{
 		result = [[NSMutableData alloc] initWithCapacity:128];
-		wasCanceled = NO;
+		canceled = NO;
 		scaleIfNeed = NO;
 	}
 	return self;
@@ -63,7 +63,7 @@
 
 - (void) postJPEGData:(NSData*)imageJPEGData 
 {
-	if(wasCanceled)
+	if(canceled)
 		return;
 	
 	NSString* login = [MGTwitterEngine username];
@@ -239,7 +239,7 @@
 
 - (void)cancel
 {
-	wasCanceled = YES;
+	canceled = YES;
 	if(connection)
 	{
 		[connection cancel];
@@ -251,7 +251,7 @@
 
 - (BOOL)canceled
 {
-	return wasCanceled;
+	return canceled;
 }
 
 

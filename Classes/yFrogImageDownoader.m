@@ -41,7 +41,7 @@
 	{
 		result = [[NSMutableData alloc] initWithCapacity:128];
 		waitXMLInfo = NO;
-		wasCanceled = NO;
+		canceled = NO;
 	}
 	return self;
 }
@@ -211,16 +211,16 @@
 
 - (void)cancel
 {
-	wasCanceled = YES;
+	canceled = YES;
 	[connection cancel];
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	[delegate receivedImage:nil sender:self];
 	[self release];
 }
 
-- (BOOL)wasCanceled
+- (BOOL)canceled
 {
-	return wasCanceled;
+	return canceled;
 }
 
 - (ImageType)imageType

@@ -76,19 +76,19 @@
 
 - (void)cancel
 {
-	wasCanceled = YES;
+	canceled = YES;
 	if(_connection)
 		[_connection cancel];
 }
 
-- (BOOL)wasCanceled
+- (BOOL)canceled
 {
-	return wasCanceled;
+	return canceled;
 }
 
 -(void)postMessage
 {
-	if(wasCanceled)
+	if(canceled)
 	{
 		[TweetterAppDelegate decreaseNetworkActivityIndicator];
 		if(self._delegate)

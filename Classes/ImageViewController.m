@@ -200,7 +200,7 @@
 		self._image = image;
 		[self applyImage];
 	}
-	else if(![sender wasCanceled])
+	else if(![sender canceled])
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed!", @"") 
 													message:NSLocalizedString(@"Failed to download the image.", @"")

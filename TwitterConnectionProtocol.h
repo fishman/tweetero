@@ -30,7 +30,7 @@
 @protocol TwitterConnectionProtocol<NSObject>
 
 - (void)cancel;
-- (BOOL)wasCanceled;
+- (BOOL)canceled;
 
 @end
 

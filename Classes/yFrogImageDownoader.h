@@ -56,12 +56,12 @@ typedef enum _ImageType
 	
 	NSMutableString* contentXMLProperty;
 	NSString*		fullYFrogImageURL;
-	BOOL			wasCanceled;
+	BOOL			canceled;
 }
 
 - (void)getImageFromURL:(NSString*)imageURL imageType:(ImageType)imageType delegate:(id <ImageDownoaderDelegate>)delegate;
 - (void)cancel;
-- (BOOL)wasCanceled;
+- (BOOL)canceled;
 
 
 @property (nonatomic, retain) NSURLConnection *connection;

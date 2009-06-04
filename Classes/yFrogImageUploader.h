@@ -47,7 +47,7 @@
 	
 	NSMutableString* contentXMLProperty;
 	NSString*		newURL;
-	BOOL			wasCanceled;
+	BOOL			canceled;
 	BOOL			scaleIfNeed;
 }
 
