@@ -26,6 +26,7 @@
 
 #import "AboutController.h"
 #import "WebViewController.h"
+#import "util.h"
 
 @implementation AboutController
 
@@ -57,7 +58,7 @@
 - (IBAction)browseSourceCode
 {
 	UIViewController *webViewCtrl = [[WebViewController alloc] initWithRequest:
-		[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://code.google.com/p/tweetero/"]]];
+		tweeteroURLRequest([NSURL URLWithString:@"http://code.google.com/p/tweetero/"])];
 	[self.navigationController pushViewController:webViewCtrl animated:YES];
 	[webViewCtrl release];
 }

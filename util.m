@@ -25,6 +25,7 @@
 // 
 
 #include "util.h"
+#import "MGTwitterEngine.h"
 
 void LogStringArray(NSArray* ar, NSString* descriptionString)
 {
@@ -385,5 +386,19 @@ NSString *DecodeEntities(NSString *str)
 	}
 	
 	return bufstr;
+}
+
+NSURLRequest* tweeteroURLRequest(NSURL* url)
+{
+	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
+	[req setValue:[MGTwitterEngine userAgent] forHTTPHeaderField:@"User-Agent"];
+	return req;
+}
+
+NSMutableURLRequest* tweeteroMutableURLRequest(NSURL* url)
+{
+	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
+	[req setValue:[MGTwitterEngine userAgent] forHTTPHeaderField:@"User-Agent"];
+	return req;
 }
 

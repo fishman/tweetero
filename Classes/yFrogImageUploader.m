@@ -72,10 +72,9 @@
 	NSString *boundary = [NSString stringWithFormat:@"------%ld__%ld__%ld", random(), random(), random()];
 	
 	NSURL *url = [NSURL URLWithString:@"http://yfrog.com/api/upload"];
-	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
+	NSMutableURLRequest *req = tweeteroMutableURLRequest(url);
 	[req setHTTPMethod:@"POST"];
 
-    [req setValue:[MGTwitterEngine userAgent] forHTTPHeaderField:@"User-Agent"];
 	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
 	[req setValue:contentType forHTTPHeaderField:@"Content-type"];
 	

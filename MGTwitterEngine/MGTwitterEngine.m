@@ -529,6 +529,7 @@ static NSMutableDictionary *createBaseDictionary(NSString *server, NSString *acc
                                                               cachePolicy:NSURLRequestReloadIgnoringCacheData 
                                                           timeoutInterval:URL_REQUEST_TIMEOUT];
     
+    [theRequest setValue:[MGTwitterEngine userAgent] forHTTPHeaderField:@"User-Agent"];
     // Create a connection using this request, with the default timeout and caching policy, 
     // and appropriate Twitter request and response types for parsing and error reporting.
     MGTwitterHTTPURLConnection *connection;

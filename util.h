@@ -43,4 +43,7 @@ NSString* ValidateYFrogLink(NSString *url);
 
 NSString *DecodeEntities(NSString *str);
 
+NSURLRequest* tweeteroURLRequest(NSURL* url);
+NSMutableURLRequest* tweeteroMutableURLRequest(NSURL* url);
+
 #endif
