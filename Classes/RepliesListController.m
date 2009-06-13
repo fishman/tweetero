@@ -42,7 +42,7 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-	self.navigationItem.title = @"Replies";
+	self.navigationItem.title = NSLocalizedString(@"Replies", @"");
 	
 	UIBarButtonItem *reloadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
 		target:self action:@selector(reload)];
@@ -57,12 +57,12 @@
 
 - (NSString*)noMessagesString
 {
-	return @"No Replies";
+	return NSLocalizedString(@"No Replies", @""); 
 }
 
 - (NSString*)loadingMessagesString
 {
-	return @"Loading Replies...";
+	return NSLocalizedString(@"Loading Replies...", @"");
 }
 
 - (void)loadMessagesStaringAtPage:(int)numPage count:(int)count
