@@ -295,6 +295,11 @@ static NSMutableDictionary *createBaseDictionary(NSString *server, NSString *acc
     return [[_clientVersion retain] autorelease];
 }
 
++ (NSString *)userAgent
+{
+	return [NSString stringWithFormat:@"%@ %@", [MGTwitterEngine clientName], [MGTwitterEngine clientVersion]];
+}
+
 + (NSString *)clientName
 {
     return DEFAULT_CLIENT_NAME;
@@ -619,7 +624,7 @@ static NSMutableDictionary *createBaseDictionary(NSString *server, NSString *acc
     [theRequest setHTTPShouldHandleCookies:NO];
     
     // Set headers for client information, for tracking purposes at Twitter.
-    [theRequest setValue:[NSString stringWithFormat:@"%@ %@", _clientName, _clientVersion] forHTTPHeaderField:@"User-Agent"];
+    [theRequest setValue:[MGTwitterEngine userAgent] forHTTPHeaderField:@"User-Agent"];
 
     [theRequest setValue:_clientName    forHTTPHeaderField:@"X-Twitter-Client"];
     [theRequest setValue:_clientVersion forHTTPHeaderField:@"X-Twitter-Client-Version"];

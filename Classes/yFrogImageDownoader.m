@@ -64,7 +64,7 @@
 - (void)postRequestForImage:(NSURL*)imageURL
 {
 	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:imageURL];
-	[req setValue:[NSString stringWithFormat:@"%@ %@", [MGTwitterEngine clientName], [MGTwitterEngine clientVersion]] forHTTPHeaderField:@"User-Agent"];
+	[req setValue:[MGTwitterEngine userAgent] forHTTPHeaderField:@"User-Agent"];
 	self.connection = [[NSURLConnection alloc] initWithRequest:req 
 												  delegate:self 
 										  startImmediately:YES];
@@ -97,7 +97,7 @@
 	{
 		NSString* fileID = [imageURL lastPathComponent];
 		NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[@"http://yfrog.com/api/xmlInfo?path=" stringByAppendingString:fileID]]];
-		[req setValue:[NSString stringWithFormat:@"%@ %@", [MGTwitterEngine clientName], [MGTwitterEngine clientVersion]] forHTTPHeaderField:@"User-Agent"];
+		[req setValue:[MGTwitterEngine userAgent] forHTTPHeaderField:@"User-Agent"];
 		waitXMLInfo = YES;
 		self.connection = [[NSURLConnection alloc] initWithRequest:req 
 													  delegate:self 

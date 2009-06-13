@@ -75,7 +75,7 @@
 	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
 	[req setHTTPMethod:@"POST"];
 
-    [req setValue:[NSString stringWithFormat:@"%@ %@", [MGTwitterEngine clientName], [MGTwitterEngine clientVersion]] forHTTPHeaderField:@"User-Agent"];
+    [req setValue:[MGTwitterEngine userAgent] forHTTPHeaderField:@"User-Agent"];
 	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
 	[req setValue:contentType forHTTPHeaderField:@"Content-type"];
 	

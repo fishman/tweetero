@@ -43,6 +43,7 @@
 + (void)setUsername:(NSString *)newUsername password:(NSString *)newPassword remember:(BOOL)storePassword;
 + (void)forgetPassword;
 + (void)remindPassword;
++ (NSString *)userAgent;
 + (NSString*)clientName;
 + (NSString*)clientVersion;
 
