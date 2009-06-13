@@ -26,6 +26,7 @@
 
 #import "yFrogImageDownoader.h"
 #import "TweetterAppDelegate.h"
+#import "MGTwitterEngine.h"
 
 @implementation ImageDownoader
 
@@ -62,7 +63,8 @@
 
 - (void)postRequestForImage:(NSURL*)imageURL
 {
-	NSURLRequest *req = [NSURLRequest requestWithURL:imageURL];
+	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:imageURL];
+	[req setValue:[NSString stringWithFormat:@"%@ %@", [MGTwitterEngine clientName], [MGTwitterEngine clientVersion]] forHTTPHeaderField:@"User-Agent"];
 	self.connection = [[NSURLConnection alloc] initWithRequest:req 
 												  delegate:self 
 										  startImmediately:YES];
@@ -94,7 +96,8 @@
 	else if(imageType == fullYFrog)
 	{
 		NSString* fileID = [imageURL lastPathComponent];
-		NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:[@"http://yfrog.com/api/xmlInfo?path=" stringByAppendingString:fileID]]];
+		NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[@"http://yfrog.com/api/xmlInfo?path=" stringByAppendingString:fileID]]];
+		[req setValue:[NSString stringWithFormat:@"%@ %@", [MGTwitterEngine clientName], [MGTwitterEngine clientVersion]] forHTTPHeaderField:@"User-Agent"];
 		waitXMLInfo = YES;
 		self.connection = [[NSURLConnection alloc] initWithRequest:req 
 													  delegate:self 
