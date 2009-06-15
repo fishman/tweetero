@@ -82,6 +82,7 @@
 		D9CCC4D30F5CDAEA009CACBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9CCC4D20F5CDAEA009CACBB /* LoginController.m */; };
 		D9D7B1780F5E21590010CA9B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9D7B1770F5E21590010CA9B /* HomeViewController.m */; };
 		D9F4C2240F6AE68E006D4F2E /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F4C2230F6AE68E006D4F2E /* ImageViewController.m */; };
+		D9FB81630FE47FE300435E6B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9FB81620FE47FE300435E6B /* MobileCoreServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -205,6 +206,7 @@
 		D9D7B1770F5E21590010CA9B /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = ../HomeViewController.m; sourceTree = "<group>"; };
 		D9F4C2220F6AE68E006D4F2E /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		D9F4C2230F6AE68E006D4F2E /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
+		D9FB81620FE47FE300435E6B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +219,7 @@
 				288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */,
 				AA987B840F6DF22600BE95C2 /* CoreLocation.framework in Frameworks */,
 				D9A1D0CA0F75DE790055E311 /* Security.framework in Frameworks */,
+				D9FB81630FE47FE300435E6B /* MobileCoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +346,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D9FB81620FE47FE300435E6B /* MobileCoreServices.framework */,
 				D9A1D0C90F75DE790055E311 /* Security.framework */,
 				AA987B830F6DF22600BE95C2 /* CoreLocation.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
@@ -652,7 +656,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BA7DD35B-54B8-4BC5-BCF1-9F19BB60A06D";
-				SDKROOT = iphoneos2.2;
+				SDKROOT = iphoneos3.0;
 			};
 			name = Distribution;
 		};
@@ -705,7 +709,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				PRODUCT_NAME = TweetSnap;
-				SDKROOT = iphoneos2.2;
+				SDKROOT = iphoneos3.0;
 			};
 			name = Debug;
 		};
@@ -718,7 +722,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.2;
+				SDKROOT = iphoneos3.0;
 			};
 			name = Release;
 		};

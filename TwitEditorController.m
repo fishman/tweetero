@@ -206,6 +206,22 @@
 	[self setNavigatorButtons];
 }
 
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+	
+	if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:@"public.image"])
+	{
+		UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+		if(image)
+			[self imagePickerController:picker didFinishPickingImage:image editingInfo:nil];
+	}
+	else if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:@"public.movie"])
+	{
+		[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+		NSLog(@"Movie picked: %@", [info objectForKey:@"UIImagePickerControllerMediaURL"]);
+	}
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo 
 {
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
