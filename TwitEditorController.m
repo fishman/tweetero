@@ -64,7 +64,8 @@
 @synthesize currentImageYFrogURL;
 @synthesize connectionDelegate;
 @synthesize _message;
-@synthesize movieURL;
+@synthesize pickedMovie;
+@synthesize pickedImage;
 
 - (void)setCharsCount
 {
@@ -177,7 +178,8 @@
 	self.currentImageYFrogURL = nil;
 	self.connectionDelegate = nil;
 	self._message = nil;
-	self.movieURL = nil;
+	self.pickedImage = nil;
+	self.pickedMovie = nil;
 	[self dismissProgressSheetIfExist];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
@@ -219,18 +221,18 @@
 
 	BOOL startNewUpload = NO;
 
-		
-	UIImage* prevImage = nil;
-	if(img)
-		prevImage = img;
-	else if(url)
-		prevImage = [UIImage imageNamed:@"MovieIcon.tif"];
-	if(prevImage != image.image)
+	if(pickedImage != img || pickedMovie != url)
 	{
 		startNewUpload = YES;
+		UIImage* prevImage = nil;
+		if(img)
+			prevImage = img;
+		else if(url)
+			prevImage = [UIImage imageNamed:@"MovieIcon.tif"];
 		[self setImageImage:prevImage];
+		self.pickedImage = img;
+		self.pickedMovie = url;
 	}
-	self.movieURL = url;
 			
 	[self setNavigatorButtons];
 
@@ -244,7 +246,7 @@
 
 	[messageText becomeFirstResponder];
 	
-	if(!url && img)
+	if(img)
 	{
 		BOOL needToResize;
 		BOOL needToRotate;
@@ -681,6 +683,8 @@
 		if(connectionDelegate)
 			[connectionDelegate cancel];
 		[self setImageImage:nil];	
+		self.pickedImage = nil;
+		self.pickedMovie = nil;
 		[self setMessageTextText:@""];
 		[messageText becomeFirstResponder];
 		inTextEditingMode = YES;
@@ -758,6 +762,8 @@
 		{
 			twitWasChangedManually = YES;
 			[self setImageImage:nil];
+			self.pickedMovie = nil;
+			self.pickedImage = nil;
 			if(connectionDelegate)
 				[connectionDelegate cancel];
 			self.currentImageYFrogURL = nil;
@@ -834,6 +840,8 @@
 {
 	[self setImageImage:nil];
 	[self setMessageTextText:@""];
+	self.pickedImage = nil;
+	self.pickedMovie = nil;
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
@@ -847,6 +855,8 @@
 			break;
 		case 1:
 			[self setImageImage:nil];
+			self.pickedImage = nil;
+			self.pickedMovie = nil;
 			if(connectionDelegate)
 				[connectionDelegate cancel];
 			self.currentImageYFrogURL = nil;
@@ -948,6 +958,8 @@
 	if(connectionDelegate)
 		[connectionDelegate cancel];
 	[self setImageImage:nil];	
+	self.pickedImage = nil;
+	self.pickedMovie = nil;
 	[self setMessageTextText:@""];
 	[messageText resignFirstResponder];
 	[self setNavigatorButtons];
@@ -998,8 +1010,12 @@
 		_queueIndex = index;
 		[self setMessageTextText:text];
 		if(imageData)
-			[self setImageImage:[UIImage imageWithData:imageData]];
-		[postImageSegmentedControl setTitle:@"Save" forSegmentAtIndex:0];
+		{
+			self.pickedImage = [UIImage imageWithData:imageData];
+			self.pickedMovie = nil;
+			[self setImageImage:self.pickedImage];
+		}
+		[postImageSegmentedControl setTitle:NSLocalizedString(@"Save", @"") forSegmentAtIndex:0];
 		[postImageSegmentedControl setWidth:postImageSegmentedControl.frame.size.width*0.5f
 			forSegmentAtIndex:0];
 	}
