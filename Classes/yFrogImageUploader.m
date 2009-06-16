@@ -30,6 +30,9 @@
 #import "LocationManager.h"
 #include "util.h"
 
+#define		JPEG_CONTENT_TYPE			@"image/jpeg"
+#define		MP4_CONTENT_TYPE			@"video/mp4"
+
 @implementation ImageUploader
 
 @synthesize connection;
@@ -61,7 +64,7 @@
 	[super dealloc];
 }
 
-- (void) postJPEGData:(NSData*)imageJPEGData 
+- (void) postData:(NSData*)data contentType:(NSString*)mediaContentType
 {
 	if(canceled)
 		return;
@@ -82,10 +85,11 @@
 	NSMutableData *postBody = [NSMutableData data];
 	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	
-	[postBody appendData:[@"Content-Disposition: form-data; name=\"media\"; filename=\"iPhoneImage\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[@"Content-Type: image/jpeg\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[postBody appendData:[@"Content-Disposition: form-data; name=\"media\"; filename=\"iPhoneMedia\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[postBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n", mediaContentType] dataUsingEncoding:NSUTF8StringEncoding]];
+//	[postBody appendData:[@"Content-Type: image/jpeg\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	[postBody appendData:[@"Content-Transfer-Encoding: binary\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:imageJPEGData];
+	[postBody appendData:data];
 	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	[postBody appendData:[@"Content-Disposition: form-data; name=\"username\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -130,7 +134,21 @@
 	self.delegate = dlgt;
 	self.userData = data;
 
-	[self postJPEGData:imageJPEGData];
+	[self postData:imageJPEGData contentType:JPEG_CONTENT_TYPE];
+}
+
+- (void)postMP4Data:(NSData*)movieData delegate:(id <ImageUploaderDelegate>)dlgt userData:(id)data
+{
+	if(!movieData)
+	{
+		[delegate uploadedImage:nil sender:self];
+		[self release];
+	}
+		
+	self.delegate = dlgt;
+	self.userData = data;
+
+	[self postData:movieData contentType:MP4_CONTENT_TYPE];
 }
 
 - (void)convertImageThreadAndStartUpload:(UIImage*)image
