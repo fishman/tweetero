@@ -45,6 +45,9 @@
 #define PHOTO_ENABLE_SERVICES_ALERT_TAG									666
 #define PHOTO_DO_CANCEL_ALERT_TAG										13
 
+#define K_UI_TYPE_MOVIE													@"public.movie"
+#define K_UI_TYPE_IMAGE													@"public.image"
+
 @implementation ImagePickerController
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -206,16 +209,16 @@
 	[self setNavigatorButtons];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
 	
-	if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:@"public.image"])
+	if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:K_UI_TYPE_IMAGE])
 	{
-		UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-		if(image)
-			[self imagePickerController:picker didFinishPickingImage:image editingInfo:nil];
+		UIImage *libImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+		if(libImage)
+			[self imagePickerController:picker didFinishPickingImage:libImage editingInfo:nil];
 	}
-	else if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:@"public.movie"])
+	else if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:K_UI_TYPE_MOVIE])
 	{
 		[[picker parentViewController] dismissModalViewControllerAnimated:YES];
 		NSLog(@"Movie picked: %@", [info objectForKey:@"UIImagePickerControllerMediaURL"]);
@@ -353,6 +356,80 @@
 	[messageText resignFirstResponder];
 }
 
+- (NSArray*)availableMediaTypes:(UIImagePickerControllerSourceType) pickerSourceType
+{
+	SEL selector = @selector(availableMediaTypesForSourceType:);
+	NSMethodSignature *sig = [[UIImagePickerController class] methodSignatureForSelector:selector];
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+	[invocation setTarget:[UIImagePickerController class]];
+	[invocation setSelector:selector];
+	[invocation setArgument:&pickerSourceType atIndex:2];
+	[invocation invoke];
+	NSArray *mediaTypes = nil;
+	[invocation getReturnValue:&mediaTypes];
+	return mediaTypes;
+}
+
+- (void)grabImage 
+{
+	BOOL imageAlreadyExists = image.image != nil;
+	BOOL photoCameraEnabled = NO;
+	BOOL photoLibraryEnabled = NO;
+	BOOL movieCameraEnabled = NO;
+	BOOL movieLibraryEnabled = NO;
+		
+		
+	NSArray *mediaTypes = nil;
+
+	if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
+	{
+		photoLibraryEnabled = YES;
+		if ([[UIImagePickerController class] respondsToSelector:@selector(availableMediaTypesForSourceType:)]) 
+		{
+			mediaTypes = [self availableMediaTypes:UIImagePickerControllerSourceTypePhotoLibrary];
+			movieLibraryEnabled = [mediaTypes indexOfObject:K_UI_TYPE_MOVIE] != NSNotFound;
+			photoLibraryEnabled = [mediaTypes indexOfObject:K_UI_TYPE_IMAGE] != NSNotFound;
+		}
+
+	}
+	if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+	{
+		photoCameraEnabled = YES;
+
+
+		if ([[UIImagePickerController class] respondsToSelector:@selector(availableMediaTypesForSourceType:)]) 
+		{
+			mediaTypes = [self availableMediaTypes:UIImagePickerControllerSourceTypeCamera];
+			movieCameraEnabled = [mediaTypes indexOfObject:K_UI_TYPE_MOVIE] != NSNotFound;
+			photoCameraEnabled = [mediaTypes indexOfObject:K_UI_TYPE_IMAGE] != NSNotFound;
+		}
+	}
+
+	NSString *buttons[5] = {0};
+	int i = 0;
+	
+	if(photoCameraEnabled)
+		buttons[i++] = NSLocalizedString(@"Use photo camera", @"");
+	if(movieCameraEnabled)
+		buttons[i++] = NSLocalizedString(@"Use video camera", @"");
+	if(photoLibraryEnabled)
+		buttons[i++] = NSLocalizedString(@"Use library", @"");
+//	if(movieLibraryEnabled)
+//		buttons[i++] = NSLocalizedString(@"Use video library", @"");
+	if(imageAlreadyExists)
+		buttons[i++] = NSLocalizedString(@"RemoveImageTitle" , @"");
+	
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+															 delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil
+													otherButtonTitles:buttons[0], buttons[1], buttons[2], buttons[3], buttons[4], nil];
+	actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+	actionSheet.tag = PHOTO_Q_SHEET_TAG;
+	[actionSheet showInView:self.tabBarController.view];
+	[actionSheet release];
+	
+}
+
+/*
 - (void)grabImage 
 {
 	BOOL cameraEnabled = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
@@ -390,6 +467,8 @@
 	[actionSheet release];
 	
 }
+
+*/
 
 - (IBAction)attachImagesActions:(id)sender
 {
@@ -604,15 +683,27 @@
 			self.currentImageYFrogURL = nil;
 			return;
 		}
-		else if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Use camera", @"")])
+		else if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Use photo camera", @"")])
 		{
 			imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+			if([imgPicker respondsToSelector:@selector(setMediaType:)])
+				[imgPicker performSelector:@selector(setMediaType:) withObject:[NSArray arrayWithObject:K_UI_TYPE_IMAGE]];
+			[self presentModalViewController:imgPicker animated:YES];
+			return;
+		}
+		else if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Use video camera", @"")])
+		{
+			imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+			if([imgPicker respondsToSelector:@selector(setMediaType:)])
+				[imgPicker performSelector:@selector(setMediaType:) withObject:[NSArray arrayWithObject:K_UI_TYPE_MOVIE]];
 			[self presentModalViewController:imgPicker animated:YES];
 			return;
 		}
 		else if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Use library", @"")])
 		{
 			imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+			if([imgPicker respondsToSelector:@selector(setMediaType:)])
+				[imgPicker performSelector:@selector(setMediaType:) withObject:[self availableMediaTypes:UIImagePickerControllerSourceTypePhotoLibrary]];
 			[self presentModalViewController:imgPicker animated:YES];
 			return;
 		}
