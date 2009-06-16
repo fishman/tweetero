@@ -64,6 +64,7 @@
 @synthesize currentImageYFrogURL;
 @synthesize connectionDelegate;
 @synthesize _message;
+@synthesize movieURL;
 
 - (void)setCharsCount
 {
@@ -176,6 +177,7 @@
 	self.currentImageYFrogURL = nil;
 	self.connectionDelegate = nil;
 	self._message = nil;
+	self.movieURL = nil;
 	[self dismissProgressSheetIfExist];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
@@ -209,30 +211,66 @@
 	[self setNavigatorButtons];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-	
-	if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:K_UI_TYPE_IMAGE])
-	{
-		UIImage *libImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-		if(libImage)
-			[self imagePickerController:picker didFinishPickingImage:libImage editingInfo:nil];
-	}
-	else if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:K_UI_TYPE_MOVIE])
-	{
-		[[picker parentViewController] dismissModalViewControllerAnimated:YES];
-		NSLog(@"Movie picked: %@", [info objectForKey:@"UIImagePickerControllerMediaURL"]);
-	}
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo 
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishWithPickingPhoto:(UIImage *)img pickingMovie:(NSURL*)url
 {
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
 	twitWasChangedManually = YES;
 	messageTextWillIgnoreNextViewAppearing = YES;
+
+	BOOL startNewUpload = NO;
+
+		
+	UIImage* prevImage = nil;
+	if(img)
+		prevImage = img;
+	else if(url)
+		prevImage = [UIImage imageNamed:@"MovieIcon.tif"];
+	if(prevImage != image.image)
+	{
+		startNewUpload = YES;
+		[self setImageImage:prevImage];
+	}
+	self.movieURL = url;
+			
+	[self setNavigatorButtons];
+
+	if(startNewUpload)
+	{
+		if(self.connectionDelegate)
+			[self.connectionDelegate cancel];
+		self.connectionDelegate = nil;
+		self.currentImageYFrogURL = nil;
+	}
+
+	[messageText becomeFirstResponder];
+	
+	if(!url && img)
+	{
+		BOOL needToResize;
+		BOOL needToRotate;
+		isImageNeedToConvert(img, &needToResize, &needToRotate);
+		if(needToResize || needToRotate)
+		{
+			self.progressSheet = ShowActionSheet(NSLocalizedString(@"Processing image...", @""), self, nil, self.tabBarController.view);
+			self.progressSheet.tag = PROCESSING_PHOTO_SHEET_TAG;
+		}
+	}
+}
+
+
+
+/*
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishWithPickingPhoto:(UIImage *)img pickingMovie:(NSURL*)url
+{
+	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+	twitWasChangedManually = YES;
+	messageTextWillIgnoreNextViewAppearing = YES;
+
 	BOOL startNewUpload = img != image.image;
-	if(img != image.image)
-		[self setImageImage:img];	
+
+	if(!img && url)
+		[self setImageImage:img];
+			
 	[self setNavigatorButtons];
 
 	if(startNewUpload)
@@ -253,6 +291,30 @@
 		self.progressSheet = ShowActionSheet(NSLocalizedString(@"Processing image...", @""), self, nil, self.tabBarController.view);
 		self.progressSheet.tag = PROCESSING_PHOTO_SHEET_TAG;
 	}
+}
+*/
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+	
+	if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:K_UI_TYPE_IMAGE])
+	{
+//		UIImage *libImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+		[self imagePickerController:picker didFinishWithPickingPhoto:[info objectForKey:@"UIImagePickerControllerOriginalImage"] pickingMovie:nil];
+	}
+	else if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:K_UI_TYPE_MOVIE])
+	{
+		[self imagePickerController:picker didFinishWithPickingPhoto:nil pickingMovie:[info objectForKey:@"UIImagePickerControllerMediaURL"]];
+		
+//		[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+//		self.movieURL = [info objectForKey:@"UIImagePickerControllerMediaURL"];
+//		image.image = self.movieURL ? [UIImage imageNamed:@"MovieIcon.tif"] : nil;
+	}
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo 
+{
+	[self imagePickerController:picker didFinishWithPickingPhoto:img pickingMovie:nil];
 }
 
 
@@ -486,14 +548,32 @@
 		[uploader release];
 	}
 	
-	if(self.progressSheet.tag == PROCESSING_PHOTO_SHEET_TAG)
+	if(self.progressSheet && self.progressSheet.tag == PROCESSING_PHOTO_SHEET_TAG)
 	{
 		[self.progressSheet dismissWithClickedButtonIndex:-1 animated:YES];
 		self.progressSheet = nil;
-	}
-
-		
+	}		
 }
+
+/*
+- (void)startUploadingOfPickedImageIfNeed
+{
+	if(!self.currentImageYFrogURL && image.image && !connectionDelegate)
+	{
+		ImageUploader * uploader = [[ImageUploader alloc] init];
+		self.connectionDelegate = uploader;
+		[self retainActivityIndicator];
+		[uploader postImage:image.image delegate:self userData:image.image];
+		[uploader release];
+	}
+	
+	if(self.progressSheet && self.progressSheet.tag == PROCESSING_PHOTO_SHEET_TAG)
+	{
+		[self.progressSheet dismissWithClickedButtonIndex:-1 animated:YES];
+		self.progressSheet = nil;
+	}		
+}
+*/
 
 - (void)postImageAction 
 {

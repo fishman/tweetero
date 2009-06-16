@@ -89,6 +89,8 @@ enum _TwitEditorSuspendedOperations
 	int _indicatorCount;
 	
 	BOOL twitWasChangedManually;
+	
+	NSURL*		movieURL;
 }
 
 - (id)init;
@@ -131,5 +133,6 @@ enum _TwitEditorSuspendedOperations
 @property (nonatomic, retain) NSString *currentImageYFrogURL;
 @property (nonatomic, retain) id <TwitterConnectionProtocol> connectionDelegate;
 @property (nonatomic, retain) NSDictionary *_message;
+@property (nonatomic, retain) NSURL*		movieURL;
 
 @end
