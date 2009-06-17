@@ -340,7 +340,7 @@
  
 		// Register for the playback finished notification.
 		[[NSNotificationCenter defaultCenter] addObserver:self
-                selector:@selector(myMovieFinishedCallback:)
+                selector:@selector(movieFinishedCallback:)
                 name:MPMoviePlayerPlaybackDidFinishNotification
                 object:theMovie];
  
