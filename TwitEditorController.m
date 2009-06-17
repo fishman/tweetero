@@ -31,6 +31,8 @@
 #import "LocationManager.h"
 #include "util.h"
 #import "TweetQueue.h"
+#import <MediaPlayer/MediaPlayer.h>
+#import "ImageViewController.h"
 
 #define SEND_SEGMENT_CNTRL_WIDTH			130
 #define FIRST_SEND_SEGMENT_WIDTH			 66
@@ -310,6 +312,42 @@
 	[self imagePickerController:picker didFinishWithPickingPhoto:img pickingMovie:nil];
 }
 
+-(void)movieFinishedCallback:(NSNotification*)aNotification
+{
+    MPMoviePlayerController* theMovie = [aNotification object];
+ 
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                name:MPMoviePlayerPlaybackDidFinishNotification
+                object:theMovie];
+ 
+    // Release the movie instance created in playMovieAtURL:
+    [theMovie release];
+}
+
+- (void)imageViewTouched:(NSNotification*)notification
+{
+	if(pickedImage)
+	{
+		UIViewController *imgViewCtrl = [[ImageViewController alloc] initWithImage:pickedImage];
+		[self.navigationController pushViewController:imgViewCtrl animated:YES];
+		[imgViewCtrl release];
+	}
+	else if(pickedMovie)
+	{
+		MPMoviePlayerController* theMovie = [[MPMoviePlayerController alloc] initWithContentURL:pickedMovie];
+		theMovie.scalingMode = MPMovieScalingModeAspectFill;
+		theMovie.movieControlMode = MPMovieControlModeDefault;
+ 
+		// Register for the playback finished notification.
+		[[NSNotificationCenter defaultCenter] addObserver:self
+                selector:@selector(myMovieFinishedCallback:)
+                name:MPMoviePlayerPlaybackDidFinishNotification
+                object:theMovie];
+ 
+		// Movie playback is asynchronous, so this method returns immediately.
+		[theMovie play];
+	}
+}
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -338,7 +376,6 @@
 	if(!cameraEnabled && !libraryEnabled)
 		[pickImage setHidden:YES];
 
-	image.actualNavigationController = self.navigationController;
 	[messageText becomeFirstResponder];
 	inTextEditingMode = YES;
 	
@@ -353,6 +390,8 @@
 		
 	[self setQueueTitle];
 	[self setNavigatorButtons];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageViewTouched:) name:@"ImageViewTouched" object:image];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text

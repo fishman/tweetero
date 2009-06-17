@@ -78,6 +78,7 @@
 		D9B394E10F66E1D00039242D /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B394E00F66E1D00039242D /* UserInfo.m */; };
 		D9CCC4D30F5CDAEA009CACBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9CCC4D20F5CDAEA009CACBB /* LoginController.m */; };
 		D9D7B1780F5E21590010CA9B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9D7B1770F5E21590010CA9B /* HomeViewController.m */; };
+		D9F3D74D0FE87CEE0007619E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9F3D74C0FE87CEE0007619E /* MediaPlayer.framework */; };
 		D9F4C2240F6AE68E006D4F2E /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F4C2230F6AE68E006D4F2E /* ImageViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -197,6 +198,7 @@
 		D9CCC4D20F5CDAEA009CACBB /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginController.m; path = ../LoginController.m; sourceTree = "<group>"; };
 		D9D7B1760F5E21590010CA9B /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = ../HomeViewController.h; sourceTree = "<group>"; };
 		D9D7B1770F5E21590010CA9B /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = ../HomeViewController.m; sourceTree = "<group>"; };
+		D9F3D74C0FE87CEE0007619E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		D9F4C2220F6AE68E006D4F2E /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		D9F4C2230F6AE68E006D4F2E /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -211,6 +213,7 @@
 				288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */,
 				AA987B840F6DF22600BE95C2 /* CoreLocation.framework in Frameworks */,
 				D9A1D0CA0F75DE790055E311 /* Security.framework in Frameworks */,
+				D9F3D74D0FE87CEE0007619E /* MediaPlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +340,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D9F3D74C0FE87CEE0007619E /* MediaPlayer.framework */,
 				D9A1D0C90F75DE790055E311 /* Security.framework */,
 				AA987B830F6DF22600BE95C2 /* CoreLocation.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,

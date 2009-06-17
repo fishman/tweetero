@@ -25,12 +25,11 @@
 // 
 
 #import "ImagePreview.h"
-#import "ImageViewController.h"
+
 
 
 @implementation ImagePreview
 
-@synthesize actualNavigationController;
 
 - (id)initWithFrame:(CGRect)frame 
 {
@@ -51,11 +50,9 @@
 		UITouch *touch = [[allTouches allObjects] objectAtIndex:0];
 		if([touch tapCount] == 1)
 		{
-			if(self.image && actualNavigationController)
+			if(self.image)
 			{
-				UIViewController *imgViewCtrl = [[ImageViewController alloc] initWithImage:self.image];
-				[self.actualNavigationController pushViewController:imgViewCtrl animated:YES];
-				[imgViewCtrl release];
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"ImageViewTouched" object:self];
 			}
 		}
 	}
@@ -63,7 +60,6 @@
 
 - (void)dealloc 
 {
-	self.actualNavigationController = nil;
     [super dealloc];
 }
 

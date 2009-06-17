@@ -29,10 +29,8 @@
 
 @interface ImagePreview : UIImageView 
 {
-	UINavigationController *actualNavigationController;
 }
 
-@property (nonatomic, retain) UINavigationController *actualNavigationController;
 
 
 @end
