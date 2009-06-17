@@ -119,7 +119,10 @@
 		ImageUploader * uploader = [[ImageUploader alloc] init];
 		self._connection = uploader;
 		if(_imageData)
-			[uploader postJPEGData:_imageData delegate:self userData:nil];
+		{
+			[uploader postImage:[UIImage  imageWithData:_imageData] delegate:self userData:nil];
+//			[uploader postJPEGData:_imageData delegate:self userData:nil];//this method does not scale image
+		}
 		else
 			[uploader postMP4Data:[NSData dataWithContentsOfURL:_videoURL] delegate:self userData:nil];
 		[uploader release];
