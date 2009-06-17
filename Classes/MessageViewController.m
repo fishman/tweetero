@@ -265,7 +265,7 @@
 - (void)playMovie:(NSString*)movieURL
 {
 	MPMoviePlayerController* theMovie = [[MPMoviePlayerController alloc] initWithContentURL:
-		[NSURL URLWithString:movieURL]];
+		[NSURL URLWithString:[movieURL stringByAppendingString:@":iphone"]]];
 	theMovie.scalingMode = MPMovieScalingModeAspectFill;
 	theMovie.movieControlMode = MPMovieControlModeDefault;
 
