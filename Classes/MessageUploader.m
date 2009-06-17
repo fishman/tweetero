@@ -35,15 +35,16 @@
 @synthesize _imageData;
 @synthesize _connection;
 @synthesize _delegate;
+@synthesize _videoURL;
 
 
-- (id)initWithText:(NSString*)text image:(UIImage*)image replayTo:(int)replayTo delegate:(id <MessageUploaderDelegate>)delegate
+- (id)initWithText:(NSString*)text image:(UIImage*)image video:(NSURL*)videoURL replayTo:(int)replayTo delegate:(id <MessageUploaderDelegate>)delegate
 {
-	self = [self initWithText:text imageJPEGData:UIImageJPEGRepresentation(image, 1.0f) replayTo:replayTo delegate:delegate];
+	self = [self initWithText:text imageJPEGData:UIImageJPEGRepresentation(image, 1.0f) video:videoURL replayTo:replayTo delegate:delegate];
 	return self;
 }
 
-- (id)initWithText:(NSString*)text imageJPEGData:(NSData*)JPEGData replayTo:(int)replayTo delegate:(id <MessageUploaderDelegate>)delegate
+- (id)initWithText:(NSString*)text imageJPEGData:(NSData*)JPEGData video:(NSURL*)videoURL replayTo:(int)replayTo delegate:(id <MessageUploaderDelegate>)delegate
 {
 	self = [super init];
 	if(self)
@@ -53,6 +54,7 @@
 		self._imageData = JPEGData;	
 		_replyTo = replayTo;
 		self._delegate = delegate;
+		self._videoURL = videoURL;
 	}
 	return self;
 }
@@ -68,6 +70,7 @@
 
 	self._body = nil;
 	self._imageData = nil;	
+	self._videoURL = nil;	
 	self._connection = nil;
 	self._delegate = nil;
     [super dealloc];
@@ -108,6 +111,24 @@
 
 - (void) send
 {
+	if(!self._imageData && ! self._videoURL)
+		[self postMessage];
+	else
+	{
+		[self retain];
+		ImageUploader * uploader = [[ImageUploader alloc] init];
+		self._connection = uploader;
+		if(_imageData)
+			[uploader postJPEGData:_imageData delegate:self userData:nil];
+		else
+			[uploader postMP4Data:[NSData dataWithContentsOfURL:_videoURL] delegate:self userData:nil];
+		[uploader release];
+	}
+}
+
+/*
+- (void) send
+{
 	if(!self._imageData)
 		[self postMessage];
 	else
@@ -119,6 +140,8 @@
 		[uploader release];
 	}
 }
+
+*/
 
 - (void)uploadedImage:(NSString*)yFrogURL sender:(ImageUploader*)sender
 {

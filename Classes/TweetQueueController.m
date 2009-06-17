@@ -174,12 +174,14 @@
 			
 	NSString* text;
 	NSData* imageData;
+	NSURL*  movieURL;
 	int replyTo = 0;
-	if([[TweetQueue sharedQueue] getMessage:&text andImageData:&imageData inReplyTo:&replyTo atIndex:0])
+	if([[TweetQueue sharedQueue] getMessage:&text andImageData:&imageData movieURL:&movieURL inReplyTo:&replyTo atIndex:0])
 	{
 		[self retain];
 		MessageUploader * uploader = [[MessageUploader alloc] initWithText:text 
 													imageJPEGData:imageData
+													video:movieURL 
 													replayTo:replyTo 
 													delegate:self];
 		self._connection = uploader;
@@ -345,7 +347,7 @@
 	{
 		UILabel *label = (UILabel *)[cell viewWithTag:1];
 		NSString *text;
-		if([[TweetQueue sharedQueue] getMessage:&text andImageData:NULL inReplyTo:nil atIndex:indexPath.row])
+		if([[TweetQueue sharedQueue] getMessage:&text andImageData:NULL movieURL:nil inReplyTo:nil atIndex:indexPath.row])
 		{
 			CGRect cellFrame = [cell frame];
 			cellFrame.origin = CGPointMake(0, 0);

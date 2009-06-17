@@ -50,7 +50,7 @@
 	return libFolderPath;
 }
 
-- (NSString*) saveJPEGDataToLibrary:(NSData*)jpegData // return local path
+- (NSString*) saveJPEGDataInLibrary:(NSData*)jpegData // return local path
 {
 	NSFileManager* fm = [NSFileManager defaultManager];
 	BOOL folderExists = NO;
@@ -74,7 +74,7 @@
 
 - (NSString*) saveImageInLibrary:(UIImage*)image
 {
-	return [self saveJPEGDataToLibrary:UIImageJPEGRepresentation(image, 1.0f)];
+	return [self saveJPEGDataInLibrary:UIImageJPEGRepresentation(image, 1.0f)];
 }
 
 
@@ -90,14 +90,15 @@
 	return queue;
 }
 
-- (BOOL)addMessage:(NSString*)text withImage:(UIImage*)image inReplyTo:(int)inReplyTo
+- (BOOL)addMessage:(NSString*)text withImage:(UIImage*)image withMovie:(NSURL*)movieURL inReplyTo:(int)inReplyTo
 {
 	return [self addMessage:text 
 				withImageData:image ? UIImageJPEGRepresentation(image, 1.0f) : nil 
+				withMovie:movieURL
 				inReplyTo:inReplyTo];
 }
 
-- (BOOL)addMessage:(NSString*)text withImageData:(NSData*)imageData inReplyTo:(int)inReplyTo
+- (BOOL)addMessage:(NSString*)text withImageData:(NSData*)imageData withMovie:(NSURL*)movieURL inReplyTo:(int)inReplyTo
 {
 	NSMutableDictionary *entry = [NSMutableDictionary dictionaryWithObject:text ? text : @"" forKey:@"text"];
 
@@ -105,12 +106,15 @@
 	
 	if(imageData) 
 	{
-		NSString* localPath = [self saveJPEGDataToLibrary:imageData];
+		NSString* localPath = [self saveJPEGDataInLibrary:imageData];
 		if(!localPath)
 			return NO;
 			
 		[entry setObject:localPath forKey:@"imagePath"];
 	}
+	
+	if(movieURL)
+		[entry setObject:[movieURL path] forKey:@"videoPath"];
 	
 	NSArray *array = [[NSUserDefaults standardUserDefaults] objectForKey:@"TweetQueue"];
 	array = array? [array arrayByAddingObject:entry]: [NSArray arrayWithObject:entry];
@@ -120,15 +124,16 @@
 	return YES;
 }
 
-- (BOOL)replaceMessage:(NSString*)text withImage:(UIImage*)image inReplyTo:(int)inReplyTo atIndex:(int)index
+- (BOOL)replaceMessage:(NSString*)text withImage:(UIImage*)image withMovie:(NSURL*)movieURL inReplyTo:(int)inReplyTo atIndex:(int)index
 {
 	return [self replaceMessage:text 
-				withImageData:image ? UIImageJPEGRepresentation(image, 1.0f) : nil 
+				withImageData:image ? UIImageJPEGRepresentation(image, 1.0f) : nil
+				withMovie:movieURL 
 				inReplyTo:inReplyTo
 				atIndex:index];
 }
 
-- (BOOL)replaceMessage:(NSString*)text withImageData:(NSData*)imageData inReplyTo:(int)inReplyTo atIndex:(int)index
+- (BOOL)replaceMessage:(NSString*)text withImageData:(NSData*)imageData withMovie:(NSURL*)movieURL inReplyTo:(int)inReplyTo atIndex:(int)index
 {
 	NSArray *prefArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"TweetQueue"];
 	if(!prefArray || index >= [prefArray count])
@@ -141,12 +146,15 @@
 	
 	if(imageData) 
 	{
-		NSString* localPath = [self saveJPEGDataToLibrary:imageData];
+		NSString* localPath = [self saveJPEGDataInLibrary:imageData];
 		if(!localPath)
 			return NO;
 			
 		[entry setObject:localPath forKey:@"imagePath"];
 	}
+	
+	if(movieURL)
+		[entry setObject:[movieURL path] forKey:@"videoPath"];
 	
 	NSMutableArray *array = [NSMutableArray arrayWithArray:prefArray];
 	[array replaceObjectAtIndex:index withObject:entry];
@@ -163,7 +171,7 @@
 	return array? [array count]: 0;
 }
 
-- (BOOL)getMessage:(NSString**)text andImageData:(NSData**)imageData inReplyTo:(int*)inReplyTo atIndex:(int)index
+- (BOOL)getMessage:(NSString**)text andImageData:(NSData**)imageData movieURL:(NSURL**)movieURL inReplyTo:(int*)inReplyTo atIndex:(int)index
 {
 	NSArray *array = [[NSUserDefaults standardUserDefaults] objectForKey:@"TweetQueue"];
 	if(!array || index >= [array count])
@@ -190,6 +198,12 @@
 		if(imagePath)
 			imagePath = [[self libraryFolderName] stringByAppendingPathComponent:imagePath];
 		*imageData = imagePath ? [NSData dataWithContentsOfFile:imagePath] : nil;
+	}
+	
+	if(movieURL)
+	{
+		NSString* videoPath = [entry objectForKey:@"videoPath"];
+		*movieURL = videoPath ? [NSURL URLWithString:videoPath] : nil;
 	}
 	
 	return YES;

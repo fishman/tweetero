@@ -206,6 +206,18 @@
 	[self setNavigatorButtons];
 }
 
+- (void) setImage:(UIImage*)img movie:(NSURL*)url
+{
+	self.pickedImage = img;
+	self.pickedMovie = url;
+	UIImage* prevImage = nil;
+	if(img)
+		prevImage = img;
+	else if(url)
+		prevImage = [UIImage imageNamed:@"MovieIcon.tif"];
+	[self setImageImage:prevImage];
+}
+
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
@@ -226,14 +238,15 @@
 	if(pickedImage != img || pickedMovie != url)
 	{
 		startNewUpload = YES;
-		UIImage* prevImage = nil;
+		[self setImage:img movie:url];
+/*		UIImage* prevImage = nil;
 		if(img)
 			prevImage = img;
 		else if(url)
 			prevImage = [UIImage imageNamed:@"MovieIcon.tif"];
-		[self setImageImage:prevImage];
 		self.pickedImage = img;
 		self.pickedMovie = url;
+		[self setImageImage:prevImage];*/
 	}
 			
 	[self setNavigatorButtons];
@@ -701,23 +714,23 @@
 	if(_queueIndex >= 0)
 	{
 		added = [[TweetQueue sharedQueue] replaceMessage: messageBody 
-											withImage: currentMediaYFrogURL ? nil : image.image 
+											withImage: (pickedImage && !currentMediaYFrogURL) ? pickedImage : nil  
+											withMovie: (pickedMovie && !currentMediaYFrogURL) ? pickedMovie : nil
 											inReplyTo: _queuedReplyId
 											atIndex:_queueIndex];
 	}
 	else
 	{
 		added = [[TweetQueue sharedQueue] addMessage: messageBody 
-											withImage: currentMediaYFrogURL ? nil : image.image 
+											withImage: (pickedImage && !currentMediaYFrogURL) ? pickedImage : nil  
+											withMovie: (pickedMovie && !currentMediaYFrogURL) ? pickedMovie : nil
 											inReplyTo: _message ? [[_message objectForKey:@"id"] intValue] : 0];
 	}
 	if(added)
 	{
 		if(connectionDelegate)
 			[connectionDelegate cancel];
-		[self setImageImage:nil];	
-		self.pickedImage = nil;
-		self.pickedMovie = nil;
+		[self setImage:nil movie:nil];
 		[self setMessageTextText:@""];
 		[messageText becomeFirstResponder];
 		inTextEditingMode = YES;
@@ -794,9 +807,7 @@
 		if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"RemoveImageTitle", @"")])
 		{
 			twitWasChangedManually = YES;
-			[self setImageImage:nil];
-			self.pickedMovie = nil;
-			self.pickedImage = nil;
+			[self setImage:nil movie:nil];
 			if(connectionDelegate)
 				[connectionDelegate cancel];
 			self.currentMediaYFrogURL = nil;
@@ -871,10 +882,8 @@
 
 - (void)popController
 {
-	[self setImageImage:nil];
+	[self setImage:nil movie:nil];
 	[self setMessageTextText:@""];
-	self.pickedImage = nil;
-	self.pickedMovie = nil;
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
@@ -887,9 +896,7 @@
 			[self grabImage];
 			break;
 		case 1:
-			[self setImageImage:nil];
-			self.pickedImage = nil;
-			self.pickedMovie = nil;
+			[self setImage:nil movie:nil];
 			if(connectionDelegate)
 				[connectionDelegate cancel];
 			self.currentMediaYFrogURL = nil;
@@ -996,9 +1003,7 @@
 	[self.navigationController popViewControllerAnimated:YES];
 	if(connectionDelegate)
 		[connectionDelegate cancel];
-	[self setImageImage:nil];	
-	self.pickedImage = nil;
-	self.pickedMovie = nil;
+	[self setImage:nil movie:nil];
 	[self setMessageTextText:@""];
 	[messageText resignFirstResponder];
 	[self setNavigatorButtons];
@@ -1044,16 +1049,15 @@
 	
 	NSString* text;
 	NSData* imageData;
-	if([[TweetQueue sharedQueue] getMessage:&text andImageData:&imageData inReplyTo:&_queuedReplyId atIndex:index])
+	NSURL* movieURL;
+	if([[TweetQueue sharedQueue] getMessage:&text andImageData:&imageData movieURL:&movieURL inReplyTo:&_queuedReplyId atIndex:index])
 	{
 		_queueIndex = index;
 		[self setMessageTextText:text];
 		if(imageData)
-		{
-			self.pickedImage = [UIImage imageWithData:imageData];
-			self.pickedMovie = nil;
-			[self setImageImage:self.pickedImage];
-		}
+			[self setImage:[UIImage imageWithData:imageData] movie:nil];
+		else if(movieURL)
+			[self setImage:nil movie:movieURL];
 		[postImageSegmentedControl setTitle:NSLocalizedString(@"Save", @"") forSegmentAtIndex:0];
 		[postImageSegmentedControl setWidth:postImageSegmentedControl.frame.size.width*0.5f
 			forSegmentAtIndex:0];

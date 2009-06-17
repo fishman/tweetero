@@ -51,6 +51,7 @@
 	NSString* _body;
 	int _replyTo;
 	NSData* _imageData;	
+	NSURL* _videoURL;	
 
 	id <MessageUploaderDelegate>  _delegate;
 	id <TwitterConnectionProtocol>  _connection;
@@ -58,8 +59,8 @@
 
 - (void)cancel;
 - (BOOL)canceled;
-- (id)initWithText:(NSString*)text image:(UIImage*)image replayTo:(int)replayTo delegate:(id <MessageUploaderDelegate>)delegate; //call initWithText:imageJPEGData:replayTo:delegate:
-- (id)initWithText:(NSString*)text imageJPEGData:(NSData*)JPEGData replayTo:(int)replayTo delegate:(id <MessageUploaderDelegate>)delegate;
+- (id)initWithText:(NSString*)text image:(UIImage*)image video:(NSURL*)videoURL replayTo:(int)replayTo delegate:(id <MessageUploaderDelegate>)delegate; //call initWithText:imageJPEGData:replayTo:delegate:
+- (id)initWithText:(NSString*)text imageJPEGData:(NSData*)JPEGData video:(NSURL*)videoURL replayTo:(int)replayTo delegate:(id <MessageUploaderDelegate>)delegate;
 
 - (void) send;
 
@@ -67,6 +68,7 @@
 
 @property (nonatomic, retain) NSString* _body;
 @property (nonatomic, retain) NSData* _imageData;
+@property (nonatomic, retain) NSURL* _videoURL;
 
 @property (nonatomic, retain) id <TwitterConnectionProtocol> _connection;
 @property (nonatomic, retain) id <MessageUploaderDelegate> _delegate;
