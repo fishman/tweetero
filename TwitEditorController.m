@@ -300,18 +300,9 @@
 {
 	
 	if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:K_UI_TYPE_IMAGE])
-	{
-//		UIImage *libImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
 		[self imagePickerController:picker didFinishWithPickingPhoto:[info objectForKey:@"UIImagePickerControllerOriginalImage"] pickingMovie:nil];
-	}
 	else if([[info objectForKey:@"UIImagePickerControllerMediaType"] isEqualToString:K_UI_TYPE_MOVIE])
-	{
 		[self imagePickerController:picker didFinishWithPickingPhoto:nil pickingMovie:[info objectForKey:@"UIImagePickerControllerMediaURL"]];
-		
-//		[[picker parentViewController] dismissModalViewControllerAnimated:YES];
-//		self.movieURL = [info objectForKey:@"UIImagePickerControllerMediaURL"];
-//		image.image = self.movieURL ? [UIImage imageNamed:@"MovieIcon.tif"] : nil;
-	}
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo 
@@ -539,23 +530,25 @@
 	[self grabImage];
 }
 
+- (void)startUpload
+{
+	if(![self mediaIsPicked])
+		return;
+
+	ImageUploader * uploader = [[ImageUploader alloc] init];
+	self.connectionDelegate = uploader;
+	[self retainActivityIndicator];
+	if(pickedImage)
+		[uploader postImage:pickedImage delegate:self userData:pickedImage];
+	else
+		[uploader postMP4Data:[NSData dataWithContentsOfURL:pickedMovie] delegate:self userData:pickedMovie];
+	[uploader release];
+}
+
 - (void)startUploadingOfPickedMediaIfNeed
 {
-	if(!self.currentMediaYFrogURL && (pickedImage || pickedMovie) && !connectionDelegate)
-	{
-		ImageUploader * uploader = [[ImageUploader alloc] init];
-		self.connectionDelegate = uploader;
-		[self retainActivityIndicator];
-		if(pickedImage)
-			[uploader postImage:pickedImage delegate:self userData:pickedImage];
-		else if(pickedMovie)
-		{
-			NSData* video = [NSData dataWithContentsOfURL:pickedMovie];
-			if(video)
-				[uploader postMP4Data:video delegate:self userData:pickedMovie];
-		}
-		[uploader release];
-	}
+	if(!self.currentMediaYFrogURL && [self mediaIsPicked] && !connectionDelegate)
+		[self startUpload];
 	
 	if(self.progressSheet && self.progressSheet.tag == PROCESSING_PHOTO_SHEET_TAG)
 	{
@@ -603,13 +596,7 @@
 	{
 		suspendedOperation = send;
 		if(!connectionDelegate)
-		{
-			ImageUploader * uploader = [[ImageUploader alloc] init];
-			self.connectionDelegate = uploader;
-			[self retainActivityIndicator];
-			[uploader postImage:image.image delegate:self userData:image.image];
-			[uploader release];
-		}
+			[self startUpload];
 		self.progressSheet = ShowActionSheet(NSLocalizedString(@"Upload Image to yFrog", @""), self, NSLocalizedString(@"Cancel", @""), self.tabBarController.view);
 		return;
 	}
