@@ -53,7 +53,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:NO];
-	[twitEditor startUploadingOfPickedImageIfNeed];
+	[twitEditor startUploadingOfPickedMediaIfNeed];
 }
 
 @end
@@ -61,7 +61,7 @@
 @implementation TwitEditorController
 
 @synthesize progressSheet;
-@synthesize currentImageYFrogURL;
+@synthesize currentMediaYFrogURL;
 @synthesize connectionDelegate;
 @synthesize _message;
 @synthesize pickedMovie;
@@ -84,7 +84,7 @@
 			cancelButton.title = NSLocalizedString(@"Cancel", @"");
 	}	
 		
-	if(image.image || [[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length])
+	if([self mediaIsPicked] || [[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length])
 	{
 		if(self.navigationItem.rightBarButtonItem != segmentBarItem)
 			self.navigationItem.rightBarButtonItem = segmentBarItem;
@@ -109,7 +109,7 @@
 - (void) setURLPlaceholder
 {
 	NSRange urlPlaceHolderRange = [messageText.text rangeOfString:urlPlaceholderMask];
-	if(image.image)
+	if([self mediaIsPicked])
 	{
 		if(urlPlaceHolderRange.location == NSNotFound)
 		{
@@ -175,7 +175,7 @@
 	[defaultTintColor release];
 	[segmentBarItem release];
 	[urlPlaceholderMask release];
-	self.currentImageYFrogURL = nil;
+	self.currentMediaYFrogURL = nil;
 	self.connectionDelegate = nil;
 	self._message = nil;
 	self.pickedImage = nil;
@@ -241,7 +241,7 @@
 		if(self.connectionDelegate)
 			[self.connectionDelegate cancel];
 		self.connectionDelegate = nil;
-		self.currentImageYFrogURL = nil;
+		self.currentMediaYFrogURL = nil;
 	}
 
 	[messageText becomeFirstResponder];
@@ -280,7 +280,7 @@
 		if(self.connectionDelegate)
 			[self.connectionDelegate cancel];
 		self.connectionDelegate = nil;
-		self.currentImageYFrogURL = nil;
+		self.currentMediaYFrogURL = nil;
 	}
 
 	[messageText becomeFirstResponder];
@@ -367,7 +367,7 @@
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
 	NSRange urlPlaceHolderRange = [textView.text rangeOfString:urlPlaceholderMask];
-	if(urlPlaceHolderRange.location == NSNotFound && image.image)
+	if(urlPlaceHolderRange.location == NSNotFound && [self mediaIsPicked])
 		return NO;
 	
 	if((urlPlaceHolderRange.location < range.location) && (urlPlaceHolderRange.location + urlPlaceHolderRange.length > range.location))
@@ -436,7 +436,7 @@
 
 - (void)grabImage 
 {
-	BOOL imageAlreadyExists = image.image != nil;
+	BOOL imageAlreadyExists = [self mediaIsPicked];
 	BOOL photoCameraEnabled = NO;
 	BOOL photoLibraryEnabled = NO;
 	BOOL movieCameraEnabled = NO;
@@ -539,14 +539,21 @@
 	[self grabImage];
 }
 
-- (void)startUploadingOfPickedImageIfNeed
+- (void)startUploadingOfPickedMediaIfNeed
 {
-	if(!self.currentImageYFrogURL && image.image && !connectionDelegate)
+	if(!self.currentMediaYFrogURL && (pickedImage || pickedMovie) && !connectionDelegate)
 	{
 		ImageUploader * uploader = [[ImageUploader alloc] init];
 		self.connectionDelegate = uploader;
 		[self retainActivityIndicator];
-		[uploader postImage:image.image delegate:self userData:image.image];
+		if(pickedImage)
+			[uploader postImage:pickedImage delegate:self userData:pickedImage];
+		else if(pickedMovie)
+		{
+			NSData* video = [NSData dataWithContentsOfURL:pickedMovie];
+			if(video)
+				[uploader postMP4Data:video delegate:self userData:pickedMovie];
+		}
 		[uploader release];
 	}
 	
@@ -558,9 +565,9 @@
 }
 
 /*
-- (void)startUploadingOfPickedImageIfNeed
+- (void)startUploadingOfPickedMediaIfNeed
 {
-	if(!self.currentImageYFrogURL && image.image && !connectionDelegate)
+	if(!self.currentMediaYFrogURL && image.image && !connectionDelegate)
 	{
 		ImageUploader * uploader = [[ImageUploader alloc] init];
 		self.connectionDelegate = uploader;
@@ -579,7 +586,7 @@
 
 - (void)postImageAction 
 {
-	if(!image.image && ![[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length])
+	if(![self mediaIsPicked] && ![[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length])
 		return;
 
 	if([messageText.text length] > MAX_SYMBOLS_COUNT_IN_TEXT_VIEW)
@@ -592,7 +599,7 @@
 		return;
 	}
 
-	if(!self.currentImageYFrogURL && image.image && !self.progressSheet)
+	if(!self.currentMediaYFrogURL && [self mediaIsPicked] && !self.progressSheet)
 	{
 		suspendedOperation = send;
 		if(!connectionDelegate)
@@ -618,8 +625,8 @@
 	}
 	
 	NSString *messageBody = messageText.text;
-	if(image.image && currentImageYFrogURL)
-		messageBody = [messageBody stringByReplacingOccurrencesOfString:urlPlaceholderMask withString:currentImageYFrogURL];
+	if([self mediaIsPicked] && currentMediaYFrogURL)
+		messageBody = [messageBody stringByReplacingOccurrencesOfString:urlPlaceholderMask withString:currentMediaYFrogURL];
 	
 	[TweetterAppDelegate increaseNetworkActivityIndicator];
 	if(!self.progressSheet)
@@ -647,7 +654,7 @@
 
 - (void)postImageLaterAction
 {
-	if(!image.image && ![[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length])
+	if(![self mediaIsPicked] && ![[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length])
 		return;
 
 	if([messageText.text length] > MAX_SYMBOLS_COUNT_IN_TEXT_VIEW)
@@ -661,21 +668,21 @@
 	}
 
 	NSString *messageBody = messageText.text;
-	if(image.image && currentImageYFrogURL)
-		messageBody = [messageBody stringByReplacingOccurrencesOfString:urlPlaceholderMask withString:currentImageYFrogURL];
+	if([self mediaIsPicked] && currentMediaYFrogURL)
+		messageBody = [messageBody stringByReplacingOccurrencesOfString:urlPlaceholderMask withString:currentMediaYFrogURL];
 
 	BOOL added;
 	if(_queueIndex >= 0)
 	{
 		added = [[TweetQueue sharedQueue] replaceMessage: messageBody 
-											withImage: currentImageYFrogURL ? nil : image.image 
+											withImage: currentMediaYFrogURL ? nil : image.image 
 											inReplyTo: _queuedReplyId
 											atIndex:_queueIndex];
 	}
 	else
 	{
 		added = [[TweetQueue sharedQueue] addMessage: messageBody 
-											withImage: currentImageYFrogURL ? nil : image.image 
+											withImage: currentMediaYFrogURL ? nil : image.image 
 											inReplyTo: _message ? [[_message objectForKey:@"id"] intValue] : 0];
 	}
 	if(added)
@@ -766,7 +773,7 @@
 			self.pickedImage = nil;
 			if(connectionDelegate)
 				[connectionDelegate cancel];
-			self.currentImageYFrogURL = nil;
+			self.currentMediaYFrogURL = nil;
 			return;
 		}
 		else if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Use photo camera", @"")])
@@ -859,7 +866,7 @@
 			self.pickedMovie = nil;
 			if(connectionDelegate)
 				[connectionDelegate cancel];
-			self.currentImageYFrogURL = nil;
+			self.currentMediaYFrogURL = nil;
 			break;
 		default:
 			break;
@@ -884,17 +891,21 @@
 - (void)uploadedImage:(NSString*)yFrogURL sender:(ImageUploader*)sender
 {
 	[self releaseActivityIndicator];
-	if(sender.userData == image.image) // don't kill later connection
+	id userData = sender.userData;
+	if(([userData isKindOfClass:[UIImage class]] && userData == pickedImage)    ||
+		([userData isKindOfClass:[NSURL class]] && userData == pickedMovie)	) // don't kill later connection
 	{
 		self.connectionDelegate = nil;
-		self.currentImageYFrogURL = yFrogURL;
+		self.currentMediaYFrogURL = yFrogURL;
 	}
-	else if(!image.image)
+	else if(![self mediaIsPicked])
 	{
 		self.connectionDelegate = nil;
-		self.currentImageYFrogURL = nil;
+		self.currentMediaYFrogURL = nil;
+		self.pickedImage = nil;
+		self.pickedMovie = nil;
 	}
-	else
+	else // another media was picked
 		return;
 	
 	if(suspendedOperation == send)
@@ -922,6 +933,8 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName: @"TwittsUpdated" object: nil];
 	self.connectionDelegate = nil;
 	image.image = nil;
+	self.pickedImage = nil;
+	self.pickedMovie = nil;
 	[self setMessageTextText:@""];
 	[messageText becomeFirstResponder];
 	inTextEditingMode = YES;
@@ -967,7 +980,7 @@
 
 - (IBAction)cancel
 {
-	if(!twitWasChangedManually || ([[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0 && !image.image))
+	if(!twitWasChangedManually || ([[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0 && ![self mediaIsPicked]))
 	{
 		[self doCancel];
 		return;
@@ -1040,6 +1053,9 @@
 	}
 }
 
-
+- (BOOL)mediaIsPicked
+{
+	return pickedImage || pickedMovie;
+}
 
 @end

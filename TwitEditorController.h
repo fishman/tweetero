@@ -71,7 +71,7 @@ enum _TwitEditorSuspendedOperations
 	IBOutlet UISegmentedControl *imagesSegmentedControl;
 	UIColor *defaultTintColor;
 	
-	NSString* currentImageYFrogURL;
+	NSString* currentMediaYFrogURL;
 	id <TwitterConnectionProtocol>  connectionDelegate;
 	TwitEditorSuspendedOperations suspendedOperation;
 
@@ -123,15 +123,17 @@ enum _TwitEditorSuspendedOperations
 
 - (void)popController;
 
-- (void)startUploadingOfPickedImageIfNeed;
+- (void)startUploadingOfPickedMediaIfNeed;
 - (void)uploadedImage:(NSString*)yFrogURL sender:(ImageUploader*)sender;
 
 - (void)retainActivityIndicator;
 - (void)releaseActivityIndicator;
 
+- (BOOL)mediaIsPicked;
+
 @property (nonatomic, retain) UIActionSheet *progressSheet;
 
-@property (nonatomic, retain) NSString *currentImageYFrogURL;
+@property (nonatomic, retain) NSString *currentMediaYFrogURL;
 @property (nonatomic, retain) id <TwitterConnectionProtocol> connectionDelegate;
 @property (nonatomic, retain) NSDictionary *_message;
 @property (nonatomic, retain) NSURL*		pickedMovie;
