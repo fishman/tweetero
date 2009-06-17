@@ -35,6 +35,7 @@
 #include "util.h"
 #import "LoginController.h"
 #import "MGTwitterEngine.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @implementation MessageViewController
 
@@ -248,6 +249,36 @@
 	[TweetterAppDelegate increaseNetworkActivityIndicator];
 }
 
+
+-(void)movieFinishedCallback:(NSNotification*)aNotification
+{
+    MPMoviePlayerController* theMovie = [aNotification object];
+ 
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                name:MPMoviePlayerPlaybackDidFinishNotification
+                object:theMovie];
+ 
+    // Release the movie instance created in playMovieAtURL:
+    [theMovie release];
+}
+
+- (void)playMovie:(NSString*)movieURL
+{
+	MPMoviePlayerController* theMovie = [[MPMoviePlayerController alloc] initWithContentURL:
+		[NSURL URLWithString:movieURL]];
+	theMovie.scalingMode = MPMovieScalingModeAspectFill;
+	theMovie.movieControlMode = MPMovieControlModeDefault;
+
+	// Register for the playback finished notification.
+	[[NSNotificationCenter defaultCenter] addObserver:self
+			selector:@selector(movieFinishedCallback:)
+			name:MPMoviePlayerPlaybackDidFinishNotification
+			object:theMovie];
+
+	// Movie playback is asynchronous, so this method returns immediately.
+	[theMovie play];
+}
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
 	if([[[request URL] absoluteString] isEqualToString:@"about:blank"])
@@ -257,10 +288,17 @@
 	NSString *yFrogURL = ValidateYFrogLink(url);
 	if(yFrogURL)
 	{
-		ImageViewController *imgViewCtrl = [[ImageViewController alloc] initWithYFrogURL:yFrogURL];
-		imgViewCtrl.originalMessage = _message;
-		[self.navigationController pushViewController:imgViewCtrl animated:YES];
-		[imgViewCtrl release];
+		if(isVideoLink(yFrogURL))
+		{
+			[self playMovie:yFrogURL];
+		}
+		else
+		{
+			ImageViewController *imgViewCtrl = [[ImageViewController alloc] initWithYFrogURL:yFrogURL];
+			imgViewCtrl.originalMessage = _message;
+			[self.navigationController pushViewController:imgViewCtrl animated:YES];
+			[imgViewCtrl release];
+		}
 	}
 	else if([url hasPrefix:@"user://"])
 	{

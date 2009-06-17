@@ -216,7 +216,7 @@ NSString* ValidateYFrogLink(NSString *yfrogUrl)
 {
 	//if host is not yfrog.com it's not a link to yfrog
 	NSURL *url = [NSURL URLWithString:yfrogUrl];
-	if([[url host] rangeOfString:@"yfrog.com" options:NSCaseInsensitiveSearch].location == NSNotFound)
+	if([[url host] rangeOfString:@"yfrog." options:NSCaseInsensitiveSearch].location == NSNotFound)
 		return nil;
 		
 		
@@ -224,8 +224,8 @@ NSString* ValidateYFrogLink(NSString *yfrogUrl)
 	if(!path || [path length] <= 1)
 		return nil; //it's a path to the site start page
 	
-	//Image URLs don't end with x, y and z
-	if([path hasSuffix:@"x"] || [path hasSuffix:@"y"] || [path hasSuffix:@"z"])
+	//Image and mp4 video URLs don't end with x and y.
+	if([path hasSuffix:@"x"] || [path hasSuffix:@"y"])
 		return nil;
 			
 	//If it's a link to a thunbnail, truncate .th.jpg to get a link to an image page
@@ -244,6 +244,23 @@ NSString* ValidateYFrogLink(NSString *yfrogUrl)
 		
 	url = [[[NSURL alloc] initWithScheme:[url scheme]  host:[url host] path:path] autorelease];
 	return [url absoluteString];
+}
+
+BOOL isVideoLink(NSString *yfrogUrl)
+{
+	NSURL *url = [NSURL URLWithString:yfrogUrl];
+	if([[url host] rangeOfString:@"yfrog." options:NSCaseInsensitiveSearch].location == NSNotFound)
+		return NO;
+		
+		
+	NSString *path = [url path];
+	if(!path || [path length] <= 1)
+		return NO; //it's a path to the site start page
+	
+	if([path hasSuffix:@"z"])
+		return YES; //It's mp4 video
+	
+	return NO;
 }
 
 
