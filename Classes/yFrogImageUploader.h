@@ -49,6 +49,9 @@
 	NSString*		newURL;
 	BOOL			canceled;
 	BOOL			scaleIfNeed;
+	
+	NSString*		contentType;
+
 }
 
 - (void)postJPEGData:(NSData*)imageJPEGData delegate:(id <ImageUploaderDelegate>)dlgt userData:(id)data;
@@ -61,6 +64,7 @@
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain) NSMutableString* contentXMLProperty;
 @property (nonatomic, retain) NSString* newURL;
+@property (nonatomic, retain) NSString* contentType;
 @property (nonatomic, retain) id userData;
 @property (nonatomic, retain) id <ImageUploaderDelegate> delegate;
 

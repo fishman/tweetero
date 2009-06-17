@@ -40,6 +40,7 @@
 @synthesize newURL;
 @synthesize userData;
 @synthesize delegate;
+@synthesize contentType;
 
 -(id)init
 {
@@ -60,14 +61,21 @@
 	self.contentXMLProperty = nil;
 	self.newURL = nil;
 	self.userData = nil;
+	self.contentType = nil;
 	[result  release];
 	[super dealloc];
 }
 
-- (void) postData:(NSData*)data contentType:(NSString*)mediaContentType
+- (void) postData:(NSData*)data
 {
 	if(canceled)
 		return;
+		
+	if(!self.contentType)
+	{
+		NSLog(@"Content-Type header was not setted\n");
+		return;
+	}
 	
 	NSString* login = [MGTwitterEngine username];
 	NSString* pass = [MGTwitterEngine password];
@@ -78,15 +86,15 @@
 	NSMutableURLRequest *req = tweeteroMutableURLRequest(url);
 	[req setHTTPMethod:@"POST"];
 
-	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-	[req setValue:contentType forHTTPHeaderField:@"Content-type"];
+	NSString *multipartContentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+	[req setValue:multipartContentType forHTTPHeaderField:@"Content-type"];
 	
 	//adding the body:
 	NSMutableData *postBody = [NSMutableData data];
 	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	[postBody appendData:[@"Content-Disposition: form-data; name=\"media\"; filename=\"iPhoneMedia\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n", mediaContentType] dataUsingEncoding:NSUTF8StringEncoding]];
+	[postBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n", self.contentType] dataUsingEncoding:NSUTF8StringEncoding]];
 //	[postBody appendData:[@"Content-Type: image/jpeg\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	[postBody appendData:[@"Content-Transfer-Encoding: binary\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	[postBody appendData:data];
@@ -123,6 +131,13 @@
 	[TweetterAppDelegate increaseNetworkActivityIndicator];
 }
 
+- (void) postData:(NSData*)data contentType:(NSString*)mediaContentType
+{
+	self.contentType = mediaContentType;
+	[self postData:data];
+}
+
+
 - (void)postJPEGData:(NSData*)imageJPEGData delegate:(id <ImageUploaderDelegate>)dlgt userData:(id)data
 {
 	if(!imageJPEGData)
@@ -156,7 +171,8 @@
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSData* imData = UIImageJPEGRepresentation(image, 1.0f);
-	[self performSelectorOnMainThread:@selector(postJPEGData:) withObject:imData waitUntilDone:NO];
+	self.contentType = JPEG_CONTENT_TYPE;
+	[self performSelectorOnMainThread:@selector(postData:) withObject:imData waitUntilDone:NO];
 
 	[pool release];
 }

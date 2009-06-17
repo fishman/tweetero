@@ -239,14 +239,6 @@
 	{
 		startNewUpload = YES;
 		[self setImage:img movie:url];
-/*		UIImage* prevImage = nil;
-		if(img)
-			prevImage = img;
-		else if(url)
-			prevImage = [UIImage imageNamed:@"MovieIcon.tif"];
-		self.pickedImage = img;
-		self.pickedMovie = url;
-		[self setImageImage:prevImage];*/
 	}
 			
 	[self setNavigatorButtons];
@@ -594,7 +586,7 @@
 		[uploader postImage:pickedImage delegate:self userData:pickedImage];
 	else
 		[uploader postMP4Data:[NSData dataWithContentsOfURL:pickedMovie] delegate:self userData:pickedMovie];
-	[uploader release];
+//	[uploader release];
 }
 
 - (void)startUploadingOfPickedMediaIfNeed
