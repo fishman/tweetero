@@ -808,24 +808,24 @@
 		else if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Use photo camera", @"")])
 		{
 			imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-			if([imgPicker respondsToSelector:@selector(setMediaType:)])
-				[imgPicker performSelector:@selector(setMediaType:) withObject:[NSArray arrayWithObject:K_UI_TYPE_IMAGE]];
+			if([imgPicker respondsToSelector:@selector(setMediaTypes:)])
+				[imgPicker performSelector:@selector(setMediaTypes:) withObject:[NSArray arrayWithObject:K_UI_TYPE_IMAGE]];
 			[self presentModalViewController:imgPicker animated:YES];
 			return;
 		}
 		else if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Use video camera", @"")])
 		{
 			imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-			if([imgPicker respondsToSelector:@selector(setMediaType:)])
-				[imgPicker performSelector:@selector(setMediaType:) withObject:[NSArray arrayWithObject:K_UI_TYPE_MOVIE]];
+			if([imgPicker respondsToSelector:@selector(setMediaTypes:)])
+				[imgPicker performSelector:@selector(setMediaTypes:) withObject:[NSArray arrayWithObject:K_UI_TYPE_MOVIE]];
 			[self presentModalViewController:imgPicker animated:YES];
 			return;
 		}
 		else if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(@"Use library", @"")])
 		{
 			imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-			if([imgPicker respondsToSelector:@selector(setMediaType:)])
-				[imgPicker performSelector:@selector(setMediaType:) withObject:[self availableMediaTypes:UIImagePickerControllerSourceTypePhotoLibrary]];
+			if([imgPicker respondsToSelector:@selector(setMediaTypes:)])
+				[imgPicker performSelector:@selector(setMediaTypes:) withObject:[self availableMediaTypes:UIImagePickerControllerSourceTypePhotoLibrary]];
 			[self presentModalViewController:imgPicker animated:YES];
 			return;
 		}
