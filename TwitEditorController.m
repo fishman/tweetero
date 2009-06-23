@@ -66,8 +66,8 @@
 @synthesize currentMediaYFrogURL;
 @synthesize connectionDelegate;
 @synthesize _message;
-@synthesize pickedMovie;
-@synthesize pickedImage;
+@synthesize pickedVideo;
+@synthesize pickedPhoto;
 
 - (void)setCharsCount
 {
@@ -107,28 +107,87 @@
 	[self setNavigatorButtons];
 }
 
+- (NSRange) urlPlaceHolderRange
+{
+	NSRange urlPlaceHolderRange = [messageText.text rangeOfString:photoURLPlaceholderMask];
+	if(urlPlaceHolderRange.location == NSNotFound)
+		urlPlaceHolderRange = [messageText.text rangeOfString:videoURLPlaceholderMask];
+	return urlPlaceHolderRange;
+}
+
+- (NSString*) currentMediaURLPlaceholder
+{
+	if(pickedVideo)
+		return videoURLPlaceholderMask;
+	if(pickedPhoto)
+		return photoURLPlaceholderMask;
+	return nil;
+}
+
 
 - (void) setURLPlaceholder
 {
-	NSRange urlPlaceHolderRange = [messageText.text rangeOfString:urlPlaceholderMask];
+	NSRange photoPlaceHolderRange = [messageText.text rangeOfString:photoURLPlaceholderMask];
+	NSRange videoPlaceHolderRange = [messageText.text rangeOfString:videoURLPlaceholderMask];
 	NSRange selectedRange = messageText.selectedRange;
 	if(selectedRange.location == NSNotFound)
 		selectedRange.location = messageText.text.length;
 
 	if([self mediaIsPicked])
 	{
-		if(urlPlaceHolderRange.location == NSNotFound)
+		if(photoPlaceHolderRange.location == NSNotFound && pickedPhoto)
 		{
 			NSString *newText = messageText.text;
+			if(videoPlaceHolderRange.location != NSNotFound)
+			{
+				if(selectedRange.location >= videoPlaceHolderRange.location && selectedRange.location < videoPlaceHolderRange.location + videoPlaceHolderRange.length)
+				{
+					selectedRange.location = videoPlaceHolderRange.location;
+					selectedRange.length = 0;
+				}
+				newText = [newText stringByReplacingCharactersInRange:videoPlaceHolderRange withString:@""];
+			}
 			if(![newText hasSuffix:@"\n"])
 				newText = [newText stringByAppendingString:@"\n"];
-			[self setMessageTextText:[newText stringByAppendingString:urlPlaceholderMask]];
+			[self setMessageTextText:[newText stringByAppendingString:photoURLPlaceholderMask]];
+		}
+		if(videoPlaceHolderRange.location == NSNotFound && pickedVideo)
+		{
+			NSString *newText = messageText.text;
+			if(photoPlaceHolderRange.location != NSNotFound)
+			{
+				if(selectedRange.location >= photoPlaceHolderRange.location && selectedRange.location < photoPlaceHolderRange.location + photoPlaceHolderRange.length)
+				{
+					selectedRange.location = photoPlaceHolderRange.location;
+					selectedRange.length = 0;
+				}
+				newText = [newText stringByReplacingCharactersInRange:photoPlaceHolderRange withString:@""];
+			}
+			if(![newText hasSuffix:@"\n"])
+				newText = [newText stringByAppendingString:@"\n"];
+			[self setMessageTextText:[newText stringByAppendingString:videoURLPlaceholderMask]];
 		}
 	}
 	else
 	{
-		if(urlPlaceHolderRange.location != NSNotFound)
-			[self setMessageTextText:[messageText.text stringByReplacingCharactersInRange:urlPlaceHolderRange withString:@""]];
+		if(photoPlaceHolderRange.location != NSNotFound)
+		{
+			if(selectedRange.location >= photoPlaceHolderRange.location && selectedRange.location < photoPlaceHolderRange.location + photoPlaceHolderRange.length)
+			{
+				selectedRange.location = photoPlaceHolderRange.location;
+				selectedRange.length = 0;
+			}
+			[self setMessageTextText:[messageText.text stringByReplacingCharactersInRange:photoPlaceHolderRange withString:@""]];
+		}
+		if(videoPlaceHolderRange.location != NSNotFound)
+		{
+			if(selectedRange.location >= videoPlaceHolderRange.location && selectedRange.location < videoPlaceHolderRange.location + videoPlaceHolderRange.length)
+			{
+				selectedRange.location = videoPlaceHolderRange.location;
+				selectedRange.length = 0;
+			}
+			[self setMessageTextText:[messageText.text stringByReplacingCharactersInRange:videoPlaceHolderRange withString:@""]];
+		}
 	}
 	messageText.selectedRange = selectedRange;
 }
@@ -138,7 +197,8 @@
 	_twitter = [[MGTwitterEngine alloc] initWithDelegate:self];
 	inTextEditingMode = NO;
 	suspendedOperation = noTEOperations;
-	urlPlaceholderMask = [NSLocalizedString(@"YFrog image URL placeholder", @"") retain];
+	photoURLPlaceholderMask = [NSLocalizedString(@"YFrog image URL placeholder", @"") retain];
+	videoURLPlaceholderMask = [NSLocalizedString(@"YFrog video URL placeholder", @"") retain];
 	messageTextWillIgnoreNextViewAppearing = NO;
 	twitWasChangedManually = NO;
 	_queueIndex = -1;
@@ -181,12 +241,13 @@
 
 	[defaultTintColor release];
 	[segmentBarItem release];
-	[urlPlaceholderMask release];
+	[photoURLPlaceholderMask release];
+	[videoURLPlaceholderMask release];
 	self.currentMediaYFrogURL = nil;
 	self.connectionDelegate = nil;
 	self._message = nil;
-	self.pickedImage = nil;
-	self.pickedMovie = nil;
+	self.pickedPhoto = nil;
+	self.pickedVideo = nil;
 	[self dismissProgressSheetIfExist];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
@@ -213,8 +274,8 @@
 
 - (void) setImage:(UIImage*)img movie:(NSURL*)url
 {
-	self.pickedImage = img;
-	self.pickedMovie = url;
+	self.pickedPhoto = img;
+	self.pickedVideo = url;
 	UIImage* prevImage = nil;
 	if(img)
 		prevImage = img;
@@ -240,7 +301,7 @@
 
 	BOOL startNewUpload = NO;
 
-	if(pickedImage != img || pickedMovie != url)
+	if(pickedPhoto != img || pickedVideo != url)
 	{
 		startNewUpload = YES;
 		[self setImage:img movie:url];
@@ -336,15 +397,15 @@
 
 - (void)imageViewTouched:(NSNotification*)notification
 {
-	if(pickedImage)
+	if(pickedPhoto)
 	{
-		UIViewController *imgViewCtrl = [[ImageViewController alloc] initWithImage:pickedImage];
+		UIViewController *imgViewCtrl = [[ImageViewController alloc] initWithImage:pickedPhoto];
 		[self.navigationController pushViewController:imgViewCtrl animated:YES];
 		[imgViewCtrl release];
 	}
-	else if(pickedMovie)
+	else if(pickedVideo)
 	{
-		MPMoviePlayerController* theMovie = [[MPMoviePlayerController alloc] initWithContentURL:pickedMovie];
+		MPMoviePlayerController* theMovie = [[MPMoviePlayerController alloc] initWithContentURL:pickedVideo];
 		theMovie.scalingMode = MPMovieScalingModeAspectFill;
 		theMovie.movieControlMode = MPMovieControlModeDefault;
  
@@ -406,7 +467,7 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-	NSRange urlPlaceHolderRange = [textView.text rangeOfString:urlPlaceholderMask];
+	NSRange urlPlaceHolderRange = [self urlPlaceHolderRange];
 	if(urlPlaceHolderRange.location == NSNotFound && [self mediaIsPicked])
 		return NO;
 	
@@ -587,10 +648,10 @@
 	ImageUploader * uploader = [[ImageUploader alloc] init];
 	self.connectionDelegate = uploader;
 	[self retainActivityIndicator];
-	if(pickedImage)
-		[uploader postImage:pickedImage delegate:self userData:pickedImage];
+	if(pickedPhoto)
+		[uploader postImage:pickedPhoto delegate:self userData:pickedPhoto];
 	else
-		[uploader postMP4Data:[NSData dataWithContentsOfURL:pickedMovie] delegate:self userData:pickedMovie];
+		[uploader postMP4Data:[NSData dataWithContentsOfURL:pickedVideo] delegate:self userData:pickedVideo];
 //	[uploader release];
 }
 
@@ -634,7 +695,7 @@
 	if([messageText.text length] > MAX_SYMBOLS_COUNT_IN_TEXT_VIEW)
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"You can not send message", @"") 
-														message:[NSString stringWithFormat:NSLocalizedString(@"Cant to send too long message", @""), 1 + [urlPlaceholderMask length]]
+														message:NSLocalizedString(@"Cant to send too long message", @"")
 													   delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
 		[alert show];
 		[alert release];
@@ -662,7 +723,10 @@
 	
 	NSString *messageBody = messageText.text;
 	if([self mediaIsPicked] && currentMediaYFrogURL)
-		messageBody = [messageBody stringByReplacingOccurrencesOfString:urlPlaceholderMask withString:currentMediaYFrogURL];
+	{
+		messageBody = [messageBody stringByReplacingOccurrencesOfString:photoURLPlaceholderMask withString:currentMediaYFrogURL];
+		messageBody = [messageBody stringByReplacingOccurrencesOfString:videoURLPlaceholderMask withString:currentMediaYFrogURL];
+	}
 	
 	[TweetterAppDelegate increaseNetworkActivityIndicator];
 	if(!self.progressSheet)
@@ -696,7 +760,7 @@
 	if([messageText.text length] > MAX_SYMBOLS_COUNT_IN_TEXT_VIEW)
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"You can not send message", @"") 
-														message:[NSString stringWithFormat:NSLocalizedString(@"Cant to send too long message", @""), 1 + [urlPlaceholderMask length]]
+														message:NSLocalizedString(@"Cant to send too long message", @"")
 													   delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
 		[alert show];
 		[alert release];
@@ -705,22 +769,25 @@
 
 	NSString *messageBody = messageText.text;
 	if([self mediaIsPicked] && currentMediaYFrogURL)
-		messageBody = [messageBody stringByReplacingOccurrencesOfString:urlPlaceholderMask withString:currentMediaYFrogURL];
+	{
+		messageBody = [messageBody stringByReplacingOccurrencesOfString:photoURLPlaceholderMask withString:currentMediaYFrogURL];
+		messageBody = [messageBody stringByReplacingOccurrencesOfString:videoURLPlaceholderMask withString:currentMediaYFrogURL];
+	}
 
 	BOOL added;
 	if(_queueIndex >= 0)
 	{
 		added = [[TweetQueue sharedQueue] replaceMessage: messageBody 
-											withImage: (pickedImage && !currentMediaYFrogURL) ? pickedImage : nil  
-											withMovie: (pickedMovie && !currentMediaYFrogURL) ? pickedMovie : nil
+											withImage: (pickedPhoto && !currentMediaYFrogURL) ? pickedPhoto : nil  
+											withMovie: (pickedVideo && !currentMediaYFrogURL) ? pickedVideo : nil
 											inReplyTo: _queuedReplyId
 											atIndex:_queueIndex];
 	}
 	else
 	{
 		added = [[TweetQueue sharedQueue] addMessage: messageBody 
-											withImage: (pickedImage && !currentMediaYFrogURL) ? pickedImage : nil  
-											withMovie: (pickedMovie && !currentMediaYFrogURL) ? pickedMovie : nil
+											withImage: (pickedPhoto && !currentMediaYFrogURL) ? pickedPhoto : nil  
+											withMovie: (pickedVideo && !currentMediaYFrogURL) ? pickedVideo : nil
 											inReplyTo: _message ? [[_message objectForKey:@"id"] intValue] : 0];
 	}
 	if(added)
@@ -922,8 +989,8 @@
 {
 	[self releaseActivityIndicator];
 	id userData = sender.userData;
-	if(([userData isKindOfClass:[UIImage class]] && userData == pickedImage)    ||
-		([userData isKindOfClass:[NSURL class]] && userData == pickedMovie)	) // don't kill later connection
+	if(([userData isKindOfClass:[UIImage class]] && userData == pickedPhoto)    ||
+		([userData isKindOfClass:[NSURL class]] && userData == pickedVideo)	) // don't kill later connection
 	{
 		self.connectionDelegate = nil;
 		self.currentMediaYFrogURL = yFrogURL;
@@ -932,8 +999,8 @@
 	{
 		self.connectionDelegate = nil;
 		self.currentMediaYFrogURL = nil;
-		self.pickedImage = nil;
-		self.pickedMovie = nil;
+		self.pickedPhoto = nil;
+		self.pickedVideo = nil;
 	}
 	else // another media was picked
 		return;
@@ -963,8 +1030,8 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName: @"TwittsUpdated" object: nil];
 	self.connectionDelegate = nil;
 	image.image = nil;
-	self.pickedImage = nil;
-	self.pickedMovie = nil;
+	self.pickedPhoto = nil;
+	self.pickedVideo = nil;
 	[self setMessageTextText:@""];
 	[messageText becomeFirstResponder];
 	inTextEditingMode = YES;
@@ -1082,7 +1149,7 @@
 
 - (BOOL)mediaIsPicked
 {
-	return pickedImage || pickedMovie;
+	return pickedPhoto || pickedVideo;
 }
 
 @end

@@ -75,7 +75,8 @@ enum _TwitEditorSuspendedOperations
 	id <TwitterConnectionProtocol>  connectionDelegate;
 	TwitEditorSuspendedOperations suspendedOperation;
 
-	NSString*				urlPlaceholderMask;
+	NSString*				photoURLPlaceholderMask;
+	NSString*				videoURLPlaceholderMask;
 	MGTwitterEngine *		_twitter;
 	
 	BOOL					messageTextWillIgnoreNextViewAppearing;
@@ -90,8 +91,8 @@ enum _TwitEditorSuspendedOperations
 	
 	BOOL					twitWasChangedManually;
 	
-	NSURL*					pickedMovie;
-	UIImage*				pickedImage;
+	NSURL*					pickedVideo;
+	UIImage*				pickedPhoto;
 }
 
 - (id)init;
@@ -136,7 +137,7 @@ enum _TwitEditorSuspendedOperations
 @property (nonatomic, retain) NSString *currentMediaYFrogURL;
 @property (nonatomic, retain) id <TwitterConnectionProtocol> connectionDelegate;
 @property (nonatomic, retain) NSDictionary *_message;
-@property (nonatomic, retain) NSURL*		pickedMovie;
-@property (nonatomic, retain) UIImage*		pickedImage;
+@property (nonatomic, retain) NSURL*		pickedVideo;
+@property (nonatomic, retain) UIImage*		pickedPhoto;
 
 @end

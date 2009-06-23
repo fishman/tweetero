@@ -157,6 +157,7 @@
 	else
 	{
 		self._body = [self._body stringByReplacingOccurrencesOfString:NSLocalizedString(@"YFrog image URL placeholder", @"") withString:yFrogURL];
+		self._body = [self._body stringByReplacingOccurrencesOfString:NSLocalizedString(@"YFrog video URL placeholder", @"") withString:yFrogURL];
 		[self postMessage];
 	}
 	[self autorelease];
