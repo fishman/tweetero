@@ -111,6 +111,10 @@
 - (void) setURLPlaceholder
 {
 	NSRange urlPlaceHolderRange = [messageText.text rangeOfString:urlPlaceholderMask];
+	NSRange selectedRange = messageText.selectedRange;
+	if(selectedRange.location == NSNotFound)
+		selectedRange.location = messageText.text.length;
+
 	if([self mediaIsPicked])
 	{
 		if(urlPlaceHolderRange.location == NSNotFound)
@@ -126,6 +130,7 @@
 		if(urlPlaceHolderRange.location != NSNotFound)
 			[self setMessageTextText:[messageText.text stringByReplacingCharactersInRange:urlPlaceHolderRange withString:@""]];
 	}
+	messageText.selectedRange = selectedRange;
 }
 
 - (void)initData
