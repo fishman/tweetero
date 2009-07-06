@@ -48,7 +48,7 @@
 #define MAX_MESSAGE_LENGTH      140 // Twitter recommends tweets of max 140 chars
 
 #define DEFAULT_CLIENT_NAME     @"tweetero"
-#define DEFAULT_CLIENT_VERSION  @"1.0"
+#define DEFAULT_CLIENT_VERSION  @"1.5"
 #define DEFAULT_CLIENT_URL      @"http://yfrog.com"
 #define DEFAULT_CLIENT_TOKEN	@"tweetero"
 
