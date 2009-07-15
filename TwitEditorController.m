@@ -420,6 +420,33 @@
 	}
 }
 
+- (void)appWillTerminate:(NSNotification*)notification
+{
+	if(![self mediaIsPicked] && ![[messageText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length])
+		return;
+
+
+	NSString *messageBody = messageText.text;
+	if([self mediaIsPicked] && currentMediaYFrogURL)
+		messageBody = [messageBody stringByReplacingOccurrencesOfString:urlPlaceholderMask withString:currentMediaYFrogURL];
+
+	if(_queueIndex >= 0)
+	{
+		[[TweetQueue sharedQueue] replaceMessage: messageBody 
+							withImage: (pickedImage && !currentMediaYFrogURL) ? pickedImage : nil  
+							withMovie: (pickedMovie && !currentMediaYFrogURL) ? pickedMovie : nil
+							inReplyTo: _queuedReplyId
+							atIndex:_queueIndex];
+	}
+	else
+	{
+		[[TweetQueue sharedQueue] addMessage: messageBody 
+							withImage: (pickedImage && !currentMediaYFrogURL) ? pickedImage : nil  
+							withMovie: (pickedMovie && !currentMediaYFrogURL) ? pickedMovie : nil
+							inReplyTo: _message ? [[_message objectForKey:@"id"] intValue] : 0];
+	}
+}
+
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
@@ -462,7 +489,9 @@
 	[self setQueueTitle];
 	[self setNavigatorButtons];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageViewTouched:) name:@"ImageViewTouched" object:image];
+	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+	[notificationCenter addObserver:self selector:@selector(imageViewTouched:) name:@"ImageViewTouched" object:image];
+	[notificationCenter addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
