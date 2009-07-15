@@ -428,22 +428,25 @@
 
 	NSString *messageBody = messageText.text;
 	if([self mediaIsPicked] && currentMediaYFrogURL)
-		messageBody = [messageBody stringByReplacingOccurrencesOfString:urlPlaceholderMask withString:currentMediaYFrogURL];
+	{
+		messageBody = [messageBody stringByReplacingOccurrencesOfString:photoURLPlaceholderMask withString:currentMediaYFrogURL];
+		messageBody = [messageBody stringByReplacingOccurrencesOfString:videoURLPlaceholderMask withString:currentMediaYFrogURL];
+	}
 
 	if(_queueIndex >= 0)
 	{
 		[[TweetQueue sharedQueue] replaceMessage: messageBody 
-							withImage: (pickedImage && !currentMediaYFrogURL) ? pickedImage : nil  
-							withMovie: (pickedMovie && !currentMediaYFrogURL) ? pickedMovie : nil
-							inReplyTo: _queuedReplyId
-							atIndex:_queueIndex];
+									withImage: (pickedPhoto && !currentMediaYFrogURL) ? pickedPhoto : nil  
+									withMovie: (pickedVideo && !currentMediaYFrogURL) ? pickedVideo : nil
+									inReplyTo: _queuedReplyId
+									atIndex:_queueIndex];
 	}
 	else
 	{
 		[[TweetQueue sharedQueue] addMessage: messageBody 
-							withImage: (pickedImage && !currentMediaYFrogURL) ? pickedImage : nil  
-							withMovie: (pickedMovie && !currentMediaYFrogURL) ? pickedMovie : nil
-							inReplyTo: _message ? [[_message objectForKey:@"id"] intValue] : 0];
+									withImage: (pickedPhoto && !currentMediaYFrogURL) ? pickedPhoto : nil  
+									withMovie: (pickedVideo && !currentMediaYFrogURL) ? pickedVideo : nil
+									inReplyTo: _message ? [[_message objectForKey:@"id"] intValue] : 0];
 	}
 }
 
