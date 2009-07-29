@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1"/>
 			<integer value="32"/>
+			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -162,7 +162,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>Forward</string>
 					<string>Re-Tweet</string>
-					<string>Mention</string>
+					<string>Reply</string>
 				</object>
 				<object class="NSMutableArray" key="IBSegmentWidths">
 					<bool key="EncodedWithXMLCoder">YES</bool>

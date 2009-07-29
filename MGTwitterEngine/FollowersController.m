@@ -208,6 +208,7 @@
 		
 		//Set userpic
 		UIImageView *imageView = (UIImageView *)[cell viewWithTag:IMAGE_TAG];
+		imageView.image = nil;
 		[[ImageLoader sharedLoader] setImageWithURL:[userData objectForKey:@"profile_image_url"] toView:imageView];
 		
 		UILabel *label;
