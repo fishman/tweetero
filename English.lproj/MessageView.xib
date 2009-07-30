@@ -153,18 +153,20 @@
 			<object class="IBUISegmentedControl" id="246399417">
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
-				<string key="NSFrame">{{-41, 0}, {290, 44}}</string>
+				<string key="NSFrameSize">{207, 44}</string>
 				<reference key="NSSuperview"/>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-				<int key="IBNumberOfSegments">2</int>
+				<int key="IBNumberOfSegments">3</int>
 				<object class="NSArray" key="IBSegmentTitles">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>Forward</string>
+					<string>Re-Tweet</string>
 					<string>Reply</string>
 				</object>
 				<object class="NSMutableArray" key="IBSegmentWidths">
 					<bool key="EncodedWithXMLCoder">YES</bool>
+					<real value="0.000000e+00"/>
 					<real value="0.000000e+00"/>
 					<real value="0.000000e+00"/>
 				</object>
@@ -172,15 +174,18 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<boolean value="YES" id="5"/>
 					<reference ref="5"/>
+					<reference ref="5"/>
 				</object>
 				<object class="NSMutableArray" key="IBSegmentContentOffsets">
 					<bool key="EncodedWithXMLCoder">YES</bool>
+					<string>{0, 0}</string>
 					<string>{0, 0}</string>
 					<string>{0, 0}</string>
 				</object>
 				<object class="NSMutableArray" key="IBSegmentImages">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="NSNull" id="4"/>
+					<reference ref="4"/>
 					<reference ref="4"/>
 				</object>
 				<bool key="IBMomentary">YES</bool>
@@ -390,7 +395,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{22, 812}, {207, 44}}</string>
+					<string>{{21, 891}, {207, 44}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

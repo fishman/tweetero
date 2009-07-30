@@ -453,6 +453,9 @@
 			[self forward];
 			break;
 		case 1:
+			[self reTwit];
+			break;
+		case 2:
 			[self reply];
 			break;
 		default:
