@@ -32,6 +32,7 @@
 #import "UserMessageListController.h"
 #import "TweetterAppDelegate.h"
 #import "TwitEditorController.h"
+#include "util.h"
 
 @implementation UserInfo
 
@@ -149,10 +150,15 @@
 	[TweetterAppDelegate decreaseNetworkActivityIndicator];
 	NSDictionary *userData = [userInfo objectAtIndex:0];
 	
-	avatarView.image = [[ImageLoader sharedLoader] imageWithURL:[userData objectForKey:@"profile_image_url"]] ;
+	UIImage *avatar = [[ImageLoader sharedLoader] imageWithURL:[userData objectForKey:@"profile_image_url"]];
+	CGSize avatarViewSize = avatarView.frame.size;
+	if(avatar.size.width > avatarViewSize.width || avatar.size.height > avatarViewSize.height)
+		avatar = imageScaledToSize(avatar, avatarViewSize.width);
+	avatarView.image = avatar;
 	nameField.text = [userData objectForKey:@"screen_name"];
 	realNameField.text = [userData objectForKey:@"name"];
 	self.navigationItem.title = [userData objectForKey:@"screen_name"];
+	
 	
 	NSMutableString* info = [NSMutableString stringWithCapacity:256];
 	[info appendFormat:@"<html><body style=\"width:%d\">", (int)infoView.frame.size.width - 10];
