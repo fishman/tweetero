@@ -165,7 +165,7 @@
 - (void)setUser:(NSString*)user
 {
 	_user = [user retain];
-	toField.text = [NSString stringWithFormat:@"Message to %@", _user];
+	toField.text = [NSString stringWithFormat:@"Direct Message to %@", _user];
 }
 
 
