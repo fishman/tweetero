@@ -87,7 +87,7 @@
 	_twitter = [[MGTwitterEngine alloc] initWithDelegate:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountChanged:) name:@"AccountChanged" object:nil];
 
-	[self performSelector:@selector(reloadAll) withObject:nil afterDelay:0.2f];
+	[self performSelector:@selector(reloadAll) withObject:nil afterDelay:0.5f];
 }
 
 - (void)viewWillAppear:(BOOL)animated 
