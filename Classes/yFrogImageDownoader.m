@@ -213,10 +213,13 @@
 - (void)cancel
 {
 	canceled = YES;
-	[connection cancel];
-	[TweetterAppDelegate decreaseNetworkActivityIndicator];
-	[delegate receivedImage:nil sender:self];
-	[self release];
+	if(connection)
+	{
+		[connection cancel];
+		[TweetterAppDelegate decreaseNetworkActivityIndicator];
+		[self release];
+	}
+	[delegate receivedImage:nil sender:self]; 
 }
 
 - (BOOL)canceled
