@@ -54,6 +54,22 @@
 	return self;
 }
 
+/*
+- (id)retain
+{
+	return [super retain];
+}
+- (oneway void)release
+{
+	[super release];
+}
+
+- (id)autorelease
+{
+	return [super autorelease];
+}
+*/
+
 -(void)dealloc
 {
 	self.delegate = nil;
@@ -140,28 +156,30 @@
 
 - (void)postJPEGData:(NSData*)imageJPEGData delegate:(id <ImageUploaderDelegate>)dlgt userData:(id)data
 {
+	self.delegate = dlgt;
+	self.userData = data;
+	
 	if(!imageJPEGData)
 	{
 		[delegate uploadedImage:nil sender:self];
-		[self release];
+		return;
 	}
 		
-	self.delegate = dlgt;
-	self.userData = data;
 
 	[self postData:imageJPEGData contentType:JPEG_CONTENT_TYPE];
 }
 
 - (void)postMP4Data:(NSData*)movieData delegate:(id <ImageUploaderDelegate>)dlgt userData:(id)data
 {
+	self.delegate = dlgt;
+	self.userData = data;
+	
 	if(!movieData)
 	{
 		[delegate uploadedImage:nil sender:self];
-		[self release];
+		return;
 	}
 		
-	self.delegate = dlgt;
-	self.userData = data;
 
 	[self postData:movieData contentType:MP4_CONTENT_TYPE];
 }

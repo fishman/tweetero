@@ -295,6 +295,10 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishWithPickingPhoto:(UIImage *)img pickingMovie:(NSURL*)url
 {
+//img = nil;
+//url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"TestYfrog" ofType:@"mov"]];
+
+
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
 	twitWasChangedManually = YES;
 	messageTextWillIgnoreNextViewAppearing = YES;

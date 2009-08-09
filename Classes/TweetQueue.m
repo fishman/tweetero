@@ -203,7 +203,7 @@
 	if(movieURL)
 	{
 		NSString* videoPath = [entry objectForKey:@"videoPath"];
-		*movieURL = videoPath ? [NSURL URLWithString:videoPath] : nil;
+		*movieURL = videoPath ? [NSURL fileURLWithPath:videoPath] : nil;
 	}
 	
 	return YES;
