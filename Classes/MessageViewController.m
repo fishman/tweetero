@@ -266,7 +266,7 @@
 {
 	MPMoviePlayerController* theMovie = [[MPMoviePlayerController alloc] initWithContentURL:
 		[NSURL URLWithString:[movieURL stringByAppendingString:@":iphone"]]];
-	theMovie.scalingMode = MPMovieScalingModeAspectFill;
+	theMovie.scalingMode = MPMovieScalingModeAspectFit;
 	theMovie.movieControlMode = MPMovieControlModeDefault;
 
 	// Register for the playback finished notification.
