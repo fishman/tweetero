@@ -125,6 +125,8 @@ static int NetworkActivityIndicatorCounter = 0;
     [window addSubview:tabBarController.view];
 
 	[[LocationManager locationManager] startUpdates];
+	
+	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 }
 
 

@@ -31,7 +31,8 @@
 #import "LocationManager.h"
 #include "util.h"
 #import "TweetQueue.h"
-#import <MediaPlayer/MediaPlayer.h>
+//#import <MediaPlayer/MediaPlayer.h>
+#import "TweetPlayer.h"
 #import "ImageViewController.h"
 
 #define SEND_SEGMENT_CNTRL_WIDTH			130
@@ -409,7 +410,7 @@
 	}
 	else if(pickedVideo)
 	{
-		MPMoviePlayerController* theMovie = [[MPMoviePlayerController alloc] initWithContentURL:pickedVideo];
+		MPMoviePlayerController* theMovie = [[TweetPlayer alloc] initWithContentURL:pickedVideo];
 		theMovie.scalingMode = MPMovieScalingModeAspectFill;
 		theMovie.movieControlMode = MPMovieControlModeDefault;
  

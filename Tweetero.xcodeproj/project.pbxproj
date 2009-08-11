@@ -42,6 +42,7 @@
 		D913475F0F65A8DE005F0457 /* MessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D913475D0F65A8DE005F0457 /* MessageView.xib */; };
 		D91B25BC0F748650009E1A8E /* DirectMessagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = D91B25BB0F748650009E1A8E /* DirectMessagesController.m */; };
 		D91B26140F7499AD009E1A8E /* NavigationRotateController.m in Sources */ = {isa = PBXBuildFile; fileRef = D91B26130F7499AD009E1A8E /* NavigationRotateController.m */; };
+		D93047CF1030FD3300F903C5 /* TweetPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D93047CE1030FD3300F903C5 /* TweetPlayer.m */; };
 		D935354C0F6CA27E0005DA7D /* TapScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D935354B0F6CA27E0005DA7D /* TapScrollView.m */; };
 		D93537080F7091F60005DA7D /* MessageListController.m in Sources */ = {isa = PBXBuildFile; fileRef = D93537070F7091F60005DA7D /* MessageListController.m */; };
 		D935371B0F7099630005DA7D /* UserMessageListController.m in Sources */ = {isa = PBXBuildFile; fileRef = D935371A0F7099630005DA7D /* UserMessageListController.m */; };
@@ -135,6 +136,8 @@
 		D91B25BB0F748650009E1A8E /* DirectMessagesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectMessagesController.m; sourceTree = "<group>"; };
 		D91B26120F7499AD009E1A8E /* NavigationRotateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationRotateController.h; sourceTree = "<group>"; };
 		D91B26130F7499AD009E1A8E /* NavigationRotateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationRotateController.m; sourceTree = "<group>"; };
+		D93047CD1030FD3300F903C5 /* TweetPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetPlayer.h; sourceTree = "<group>"; };
+		D93047CE1030FD3300F903C5 /* TweetPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetPlayer.m; sourceTree = "<group>"; };
 		D935354A0F6CA27E0005DA7D /* TapScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapScrollView.h; sourceTree = "<group>"; };
 		D935354B0F6CA27E0005DA7D /* TapScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapScrollView.m; sourceTree = "<group>"; };
 		D93537060F7091F60005DA7D /* MessageListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListController.h; sourceTree = "<group>"; };
@@ -278,6 +281,8 @@
 				AA87F6460F71D9D300D7A2C0 /* TwitterConnectionProtocol.h */,
 				AA9A0DDF0F7C48C200F9E2DC /* AboutController.h */,
 				AA9A0DE00F7C48C200F9E2DC /* AboutController.m */,
+				D93047CD1030FD3300F903C5 /* TweetPlayer.h */,
+				D93047CE1030FD3300F903C5 /* TweetPlayer.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -520,6 +525,7 @@
 				AA47D5BC0F7B3BAA005E0EEC /* MessageUploader.m in Sources */,
 				AA9A0DE10F7C48C200F9E2DC /* AboutController.m in Sources */,
 				D99B77AF0F83EDEC00FA19A9 /* FollowersController.m in Sources */,
+				D93047CF1030FD3300F903C5 /* TweetPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

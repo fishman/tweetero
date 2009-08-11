@@ -36,6 +36,7 @@
 #import "LoginController.h"
 #import "MGTwitterEngine.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "TweetPlayer.h"
 
 @implementation MessageViewController
 
@@ -264,7 +265,7 @@
 
 - (void)playMovie:(NSString*)movieURL
 {
-	MPMoviePlayerController* theMovie = [[MPMoviePlayerController alloc] initWithContentURL:
+	MPMoviePlayerController* theMovie = [[TweetPlayer alloc] initWithContentURL:
 		[NSURL URLWithString:[movieURL stringByAppendingString:@":iphone"]]];
 	theMovie.scalingMode = MPMovieScalingModeAspectFit;
 	theMovie.movieControlMode = MPMovieControlModeDefault;
