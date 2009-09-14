@@ -41,6 +41,7 @@ int isImageNeedToConvert(UIImage* testImage, BOOL *needToResize, BOOL *needToRot
 
 NSString* ValidateYFrogLink(NSString *url);
 BOOL isVideoLink(NSString *yfrogUrl);
+NSString* getLinkWithTag(NSString *tag);
 
 NSString *DecodeEntities(NSString *str);
 

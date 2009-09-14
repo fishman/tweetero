@@ -263,6 +263,38 @@ BOOL isVideoLink(NSString *yfrogUrl)
 	return NO;
 }
 
+NSString* getLinkWithTag(NSString *tag)
+{
+    NSString *link = nil;
+    NSRange range = [tag rangeOfString:@" href"];
+    if (range.length > 0)
+    {
+        char buf[1024];
+        
+        unsigned len = [tag length];
+        unsigned idx = range.location + range.length;
+        while ([tag characterAtIndex:idx] != '=' && idx < len)
+            idx++;
+        
+        unichar ch, endCh = ' ';
+        do {
+            idx++;
+            ch = [tag characterAtIndex:idx];
+            if (ch == '"' || ch == '\'')
+                endCh = ch;
+        } while (ch == ' ' || ch == '"' || ch == '\'' && idx < len);
+        
+        unsigned i = 0;
+        while (((ch = [tag characterAtIndex:idx]) != endCh) && (idx < len))
+        {
+            buf[i++] = (char)ch;
+            idx++;
+        }
+        buf[i] = 0;
+        link = [NSString stringWithCString:buf length:i];
+    }
+    return link;
+}
 
 static struct
 {
