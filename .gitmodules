@@ -1,0 +1,3 @@
+[submodule "LibBow-OSX"]
+	path = LibBow-OSX
+	url = git://github.com/fizx/libbow-osx.git
